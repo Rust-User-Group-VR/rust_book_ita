@@ -1,7 +1,9 @@
+.direnv/
 book/
 *~
 .idea
 .DS_Store
 target
 tmp
-
+result
+gptmdt_settings.toml
