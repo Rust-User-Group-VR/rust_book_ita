@@ -1,34 +1,34 @@
-# The Rust Programming Language
+# Il Linguaggio di Programmazione Rust
 
-[The Rust Programming Language](title-page.md)
-[Foreword](foreword.md)
-[Introduction](ch00-00-introduction.md)
+[Il Linguaggio di Programmazione Rust](title-page.md)
+[Prefazione](foreword.md)
+[Introduzione](ch00-00-introduction.md)
 
-## Getting started
+## Iniziare
 
-- [Getting Started](ch01-00-getting-started.md)
-    - [Installation](ch01-01-installation.md)
-    - [Hello, World!](ch01-02-hello-world.md)
-    - [Hello, Cargo!](ch01-03-hello-cargo.md)
+- [Iniziare](ch01-00-getting-started.md)
+    - [Installazione](ch01-01-installation.md)
+    - [Ciao, Mondo!](ch01-02-hello-world.md)
+    - [Ciao, Cargo!](ch01-03-hello-cargo.md)
 
-- [Programming a Guessing Game](ch02-00-guessing-game-tutorial.md)
+- [Programmazione di un gioco di indovinelli](ch02-00-guessing-game-tutorial.md)
 
-- [Common Programming Concepts](ch03-00-common-programming-concepts.md)
-    - [Variables and Mutability](ch03-01-variables-and-mutability.md)
-    - [Data Types](ch03-02-data-types.md)
-    - [Functions](ch03-03-how-functions-work.md)
-    - [Comments](ch03-04-comments.md)
-    - [Control Flow](ch03-05-control-flow.md)
+- [Concetti Comuni di Programmazione](ch03-00-common-programming-concepts.md)
+    - [Variabili e Mutabilità](ch03-01-variables-and-mutability.md)
+    - [Tipi di Dati](ch03-02-data-types.md)
+    - [Funzioni](ch03-03-how-functions-work.md)
+    - [Commenti](ch03-04-comments.md)
+    - [Controllo del Flusso](ch03-05-control-flow.md)
 
-- [Understanding Ownership](ch04-00-understanding-ownership.md)
-    - [What is Ownership?](ch04-01-what-is-ownership.md)
-    - [References and Borrowing](ch04-02-references-and-borrowing.md)
-    - [The Slice Type](ch04-03-slices.md)
+- [Comprendere l'Ownership](ch04-00-understanding-ownership.md)
+    - [Cos'è l'Ownership?](ch04-01-what-is-ownership.md)
+    - [Riferimenti e Borrowing](ch04-02-references-and-borrowing.md)
+    - [Il tipo Slice](ch04-03-slices.md)
 
-- [Using Structs to Structure Related Data](ch05-00-structs.md)
-    - [Defining and Instantiating Structs](ch05-01-defining-structs.md)
-    - [An Example Program Using Structs](ch05-02-example-structs.md)
-    - [Method Syntax](ch05-03-method-syntax.md)
+- [Utilizzo di Structs per Strutturare Dati Correlati](ch05-00-structs.md)
+    - [Definire e Instanziare le Struct](ch05-01-defining-structs.md)
+    - [Un programma di esempio con l'uso di Structs](ch05-02-example-structs.md)
+    - [Sintassi dei metodi](ch05-03-method-syntax.md)
 
 - [Enums and Pattern Matching](ch06-00-enums.md)
     - [Defining an Enum](ch06-01-defining-an-enum.md)

@@ -1,152 +1,102 @@
-## The Slice Type
+## Il tipo Slice
 
-*Slices* let you reference a contiguous sequence of elements in a collection
-rather than the whole collection. A slice is a kind of reference, so it does
-not have ownership.
+I *Slices* ti permettono di fare riferimento a una sequenza contigua di elementi in una collezione piuttosto che all'intera collezione. Un slice è un tipo di riferimento, quindi non ha ownership.
 
-Here’s a small programming problem: write a function that takes a string of
-words separated by spaces and returns the first word it finds in that string.
-If the function doesn’t find a space in the string, the whole string must be
-one word, so the entire string should be returned.
+Ecco un piccolo problema di programmazione: scrivi una funzione che prende una stringa di parole separate da spazi e restituisci la prima parola che trova in quella stringa. Se la funzione non trova uno spazio nella stringa, l'intera stringa deve essere una parola, quindi l'intera stringa dovrebbe essere restituita.
 
-Let’s work through how we’d write the signature of this function without using
-slices, to understand the problem that slices will solve:
+Lavoriamo su come scrivere la firma di questa funzione senza usare gli slice, per capire il problema che gli slice risolveranno:
 
 ```rust,ignore
 fn first_word(s: &String) -> ?
 ```
 
-The `first_word` function has a `&String` as a parameter. We don’t want
-ownership, so this is fine. But what should we return? We don’t really have a
-way to talk about *part* of a string. However, we could return the index of the
-end of the word, indicated by a space. Let’s try that, as shown in Listing 4-7.
+La funzione `first_word` ha un `&String` come parametro. Non vogliamo l'ownership, quindi va bene così. Ma cosa dovremmo restituire? Non abbiamo realmente un modo per parlare di *parte* di una stringa. Tuttavia, potremmo restituire l'indice della fine della parola, indicato da uno spazio. Proviamo a fare così, come mostrato nella Lista 4-7.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 4-7: The `first_word` function that returns a
-byte index value into the `String` parameter</span>
+<span class="caption">Lista 4-7: La funzione `first_word` che restituisce un valore di indice byte nel parametro `String`</span>
 
-Because we need to go through the `String` element by element and check whether
-a value is a space, we’ll convert our `String` to an array of bytes using the
-`as_bytes` method.
+Perché dobbiamo passare attraverso il `String` elemento per elemento e controllare se un valore è uno spazio, convertiremo il nostro `String` in un array di byte usando il metodo `as_bytes`.
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:as_bytes}}
 ```
 
-Next, we create an iterator over the array of bytes using the `iter` method:
+Successivamente, creiamo un iteratore sull'array di byte usando il metodo `iter`:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:iter}}
 ```
 
-We’ll discuss iterators in more detail in [Chapter 13][ch13]<!-- ignore -->.
-For now, know that `iter` is a method that returns each element in a collection
-and that `enumerate` wraps the result of `iter` and returns each element as
-part of a tuple instead. The first element of the tuple returned from
-`enumerate` is the index, and the second element is a reference to the element.
-This is a bit more convenient than calculating the index ourselves.
+Discuteremo degli iteratori più in dettaglio nel [Capitolo 13][ch13]<!-- ignore -->. Per ora, sappi che `iter` è un metodo che restituisce ciascun elemento in una collezione e che `enumerate` avvolge il risultato di `iter` e restituisce ogni elemento come parte di una tuple invece. Il primo elemento della tuple restituita da `enumerate` è l'indice, e il secondo elemento è un riferimento all'elemento. È un po' più comodo calcolare l'indice da soli.
 
-Because the `enumerate` method returns a tuple, we can use patterns to
-destructure that tuple. We’ll be discussing patterns more in [Chapter
-6][ch6]<!-- ignore -->. In the `for` loop, we specify a pattern that has `i`
-for the index in the tuple and `&item` for the single byte in the tuple.
-Because we get a reference to the element from `.iter().enumerate()`, we use
-`&` in the pattern.
+Poiché il metodo `enumerate` restituisce una tuple, possiamo usare i pattern per destrutturare quella tuple. Discuteremo più dei pattern nel [Capitolo 6][ch6]<!-- ignore -->. Nel ciclo `for`, specifichiamo un pattern che ha `i` per l'indice nella tuple e `&item` per il singolo byte nella tuple. Poiché otteniamo un riferimento all'elemento da `.iter().enumerate()`, usiamo `&` nel pattern.
 
-Inside the `for` loop, we search for the byte that represents the space by
-using the byte literal syntax. If we find a space, we return the position.
-Otherwise, we return the length of the string by using `s.len()`.
+All'interno del ciclo `for`, cerchiamo il byte che rappresenta lo spazio utilizzando la sintassi del byte letterale. Se troviamo uno spazio, restituiamo la posizione. Altrimenti, restituiamo la lunghezza della stringa usando `s.len()`.
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-07/src/main.rs:inside_for}}
 ```
 
-We now have a way to find out the index of the end of the first word in the
-string, but there’s a problem. We’re returning a `usize` on its own, but it’s
-only a meaningful number in the context of the `&String`. In other words,
-because it’s a separate value from the `String`, there’s no guarantee that it
-will still be valid in the future. Consider the program in Listing 4-8 that
-uses the `first_word` function from Listing 4-7.
+Ora abbiamo un modo per scoprire l'indice della fine della prima parola nella stringa, ma c'è un problema. Stiamo restituendo un `usize` da solo, ma è solo un numero significativo nel contesto del `&String`. In altre parole, poiché è un valore separato dalla `String`, non c'è garanzia che sarà ancora valido in futuro. Considera il programma nella Lista 4-8 che usa la funzione `first_word` dalla Lista 4-7.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-08/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 4-8: Storing the result from calling the
-`first_word` function and then changing the `String` contents</span>
+<span class="caption">Lista 4-8: Salvataggio del risultato ottenuto chiamando la funzione `first_word` e poi cambiando il contenuto della `String`</span>
 
-This program compiles without any errors and would also do so if we used `word`
-after calling `s.clear()`. Because `word` isn’t connected to the state of `s`
-at all, `word` still contains the value `5`. We could use that value `5` with
-the variable `s` to try to extract the first word out, but this would be a bug
-because the contents of `s` have changed since we saved `5` in `word`.
+Questo programma si compila senza errori e lo farebbe anche se usassimo `word` dopo aver chiamato `s.clear()`. Poiché `word` non è collegato allo stato di `s` per niente, `word` contiene ancora il valore `5`. Potremmo usare quel valore `5` con la variabile `s` per cercare di estrarre la prima parola, ma questo sarebbe un bug perché il contenuto di `s` è cambiato da quando abbiamo salvato `5` in `word`.
 
-Having to worry about the index in `word` getting out of sync with the data in
-`s` is tedious and error prone! Managing these indices is even more brittle if
-we write a `second_word` function. Its signature would have to look like this:
+Dover preoccuparsi dell'indice in `word` che va fuori sincrono con i dati in `s` è tedioso e incline agli errori! Gestire questi indici è ancora più fragile se scriviamo una funzione `second_word`. La sua firma dovrebbe essere così:
 
 ```rust,ignore
 fn second_word(s: &String) -> (usize, usize) {
 ```
 
-Now we’re tracking a starting *and* an ending index, and we have even more
-values that were calculated from data in a particular state but aren’t tied to
-that state at all. We have three unrelated variables floating around that need
-to be kept in sync.
+Ora stiamo tracciando un indice iniziale *e* uno finale, e abbiamo ancora più valori che sono stati calcolati dai dati in uno stato particolare ma non sono legati a quello stato per niente. Abbiamo tre variabili non correlate che fluttuano intorno e che devono essere mantenute sincronizzate.
 
-Luckily, Rust has a solution to this problem: string slices.
+Per fortuna, Rust ha una soluzione a questo problema: gli slice di stringa.
 
-### String Slices
+### Gli slice di Stringa
 
-A *string slice* is a reference to part of a `String`, and it looks like this:
+Uno *slice di stringa* è un riferimento a parte di una `String`, e sembra così:
 
 ```rust
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-17-slice/src/main.rs:here}}
 ```
 
-Rather than a reference to the entire `String`, `hello` is a reference to a
-portion of the `String`, specified in the extra `[0..5]` bit. We create slices
-using a range within brackets by specifying `[starting_index..ending_index]`,
-where `starting_index` is the first position in the slice and `ending_index` is
-one more than the last position in the slice. Internally, the slice data
-structure stores the starting position and the length of the slice, which
-corresponds to `ending_index` minus `starting_index`. So, in the case of `let
-world = &s[6..11];`, `world` would be a slice that contains a pointer to the
-byte at index 6 of `s` with a length value of `5`.
+Piuttosto che un riferimento all'intero `String`, `hello` è un riferimento a una porzione del `String`, specificato nell'ulteriore pezzo `[0..5]`. Creiamo gli slice utilizzando un intervallo tra parentesi quadre specificando `[starting_index..ending_index]`, dove `starting_index` è la prima posizione nello slice e `ending_index` è uno in più dell'ultima posizione nello slice. Internamente, la struttura dei dati dello slice memorizza la posizione iniziale e la lunghezza dello slice, che corrisponde a `ending_index` meno `starting_index`. Quindi, nel caso di `let world = &s[6..11];`, `world` sarebbe uno slice che contiene un puntatore al byte all'indice 6 di `s` con un valore di lunghezza di `5`.
 
-Figure 4-6 shows this in a diagram.
+La Figura 4-6 mostra questo in un diagramma.
 
-<img alt="Three tables: a table representing the stack data of s, which points
-to the byte at index 0 in a table of the string data &quot;hello world&quot; on
-the heap. The third table rep-resents the stack data of the slice world, which
-has a length value of 5 and points to byte 6 of the heap data table."
+<img alt="Tre tabelle: una tabella che rappresenta i dati stack di s, che punta
+al byte all'indice 0 in una tabella dei dati della stringa &quot;ciao mondo&quot; sul
+heap. La terza tabella rappresenta i dati stack dello slice mondo, che
+ha un valore di lunghezza 5 e punta al byte 6 della tabella dei dati del heap."
 src="img/trpl04-06.svg" class="center" style="width: 50%;" />
 
-<span class="caption">Figure 4-6: String slice referring to part of a
-`String`</span>
+<span class="caption">Figura 4-6: Slice di stringa che si riferisce a una parte di una `String`</span>
 
-With Rust’s `..` range syntax, if you want to start at index 0, you can drop
-the value before the two periods. In other words, these are equal:
+Con la sintassi degli intervalli `..` di Rust, se vuoi iniziare all'indice 0, puoi eliminare il valore prima dei due punti. In altre parole, questi sono equivalenti:
 
 ```rust
-let s = String::from("hello");
+let s = String::from("ciao");
 
 let slice = &s[0..2];
 let slice = &s[..2];
 ```
 
-By the same token, if your slice includes the last byte of the `String`, you
-can drop the trailing number. That means these are equal:
+Allo stesso modo, se il tuo slice include l'ultimo byte della `String`, puoi eliminare il numero finale. Questi sono quindi uguali:
 
 ```rust
-let s = String::from("hello");
+let s = String::from("ciao");
 
 let len = s.len();
 
@@ -154,11 +104,10 @@ let slice = &s[3..len];
 let slice = &s[3..];
 ```
 
-You can also drop both values to take a slice of the entire string. So these
-are equal:
+Puoi anche eliminare entrambi i valori per prendere uno slice dell'intera stringa. Quindi questi sono uguali:
 
 ```rust
-let s = String::from("hello");
+let s = String::from("ciao");
 
 let len = s.len();
 
@@ -166,130 +115,89 @@ let slice = &s[0..len];
 let slice = &s[..];
 ```
 
-> Note: String slice range indices must occur at valid UTF-8 character
-> boundaries. If you attempt to create a string slice in the middle of a
-> multibyte character, your program will exit with an error. For the purposes
-> of introducing string slices, we are assuming ASCII only in this section; a
-> more thorough discussion of UTF-8 handling is in the [“Storing UTF-8 Encoded
-> Text with Strings”][strings]<!-- ignore --> section of Chapter 8.
+> Nota: Gli indici dell'intervallo dello slice di stringa devono trovarsi ai confini di caratteri UTF-8 validi. Se tenti di creare uno slice di stringa nel mezzo di un carattere multibyte, il tuo programma uscirà con un errore. Ai fini dell'introduzione degli slice di stringa, stiamo assumendo solo ASCII in questa sezione; una discussione più approfondita sulla gestione dell'UTF-8 si trova nella sezione [“Memorizzazione di testo codificato in UTF-8 con le stringhe”][strings]<!-- ignore --> del Capitolo 8.
 
-With all this information in mind, let’s rewrite `first_word` to return a
-slice. The type that signifies “string slice” is written as `&str`:
+Con tutte queste informazioni in mente, riscriviamo `first_word` per restituire uno slice. Il tipo che significa "slice di stringa" è scritto come `&str`:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-18-first-word-slice/src/main.rs:here}}
 ```
+Otteniamo l'indice per la fine della parola nello stesso modo in cui abbiamo fatto in Listing 4-7, cercando la prima occorrenza di uno spazio. Quando troviamo uno spazio, restituimao uno slice di stringa utilizzando l'inizio della stringa e l'indice dello spazio come gli indici di inizio e fine.
 
-We get the index for the end of the word the same way we did in Listing 4-7, by
-looking for the first occurrence of a space. When we find a space, we return a
-string slice using the start of the string and the index of the space as the
-starting and ending indices.
+Ora, quando chiamiamo `first_word`, otteniamo un singolo valore che è legato ai dati sottostanti. Il valore è composto da un riferimento al punto di inizio dello slice e dal numero di elementi nello slice.
 
-Now when we call `first_word`, we get back a single value that is tied to the
-underlying data. The value is made up of a reference to the starting point of
-the slice and the number of elements in the slice.
-
-Returning a slice would also work for a `second_word` function:
+Restituire uno slice funzionerebbe anche per una funzione `second_word`:
 
 ```rust,ignore
 fn second_word(s: &String) -> &str {
 ```
 
-We now have a straightforward API that’s much harder to mess up because the
-compiler will ensure the references into the `String` remain valid. Remember
-the bug in the program in Listing 4-8, when we got the index to the end of the
-first word but then cleared the string so our index was invalid? That code was
-logically incorrect but didn’t show any immediate errors. The problems would
-show up later if we kept trying to use the first word index with an emptied
-string. Slices make this bug impossible and let us know we have a problem with
-our code much sooner. Using the slice version of `first_word` will throw a
-compile-time error:
+Ora abbiamo un'API diretta che è molto più difficile da rovinare perché il compilatore garantirà che i riferimenti alla `String` rimangano validi. Ricordi il bug nel programma in Listing 4-8, quando abbiamo ottenuto l'indice alla fine della prima parola ma poi abbiamo svuotato la stringa così il nostro indice non era più valido? Quel codice era logicamente errato ma non mostrava errori immediati. I problemi sarebbero emersi più tardi se avessimo continuato a cercare di utilizzare l'indice della prima parola con una stringa svuotata. Gli slice rendono impossibile questo bug e ci fanno sapere molto prima che abbiamo un problema con il nostro codice. Usando la versione slice di `first_word` avremo un errore di compilazione:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust,ignore,does_not_compile
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-19-slice-error/src/main.rs:here}}
 ```
 
-Here’s the compiler error:
+Ecco l'errore del compilatore:
 
 ```console
 {{#include ../listings/ch04-understanding-ownership/no-listing-19-slice-error/output.txt}}
 ```
 
-Recall from the borrowing rules that if we have an immutable reference to
-something, we cannot also take a mutable reference. Because `clear` needs to
-truncate the `String`, it needs to get a mutable reference. The `println!`
-after the call to `clear` uses the reference in `word`, so the immutable
-reference must still be active at that point. Rust disallows the mutable
-reference in `clear` and the immutable reference in `word` from existing at the
-same time, and compilation fails. Not only has Rust made our API easier to use,
-but it has also eliminated an entire class of errors at compile time!
+Ricorda dalle regole del prestito che se abbiamo un riferimento immutabile a qualcosa, non possiamo prendere anche un riferimento mutabile. Poiché `clear` ha bisogno di troncare la `String`, ha bisogno di ottenere un riferimento mutabile. Il `println!` dopo la chiamata a `clear` utilizza il riferimento in `word`, quindi il riferimento immutabile deve essere ancora attivo a quel punto. Rust impedisce che il riferimento mutabile in `clear` e il riferimento immutabile in `word` esistano allo stesso tempo, e la compilazione fallisce. Non solo Rust ha reso la nostra API più facile da utilizzare, ma ha anche eliminato un'intera classe di errori al momento della compilazione!
 
 <!-- Old heading. Do not remove or links may break. -->
 <a id="string-literals-are-slices"></a>
 
-#### String Literals as Slices
+#### I Literal Stringa sono Slice
 
-Recall that we talked about string literals being stored inside the binary. Now
-that we know about slices, we can properly understand string literals:
+Ricorda che abbiamo parlato dei literal stringa che sono memorizzati all'interno del binario. Ora che sappiamo gli slice, possiamo capire correttamente i literal stringa:
 
 ```rust
 let s = "Hello, world!";
 ```
 
-The type of `s` here is `&str`: it’s a slice pointing to that specific point of
-the binary. This is also why string literals are immutable; `&str` is an
-immutable reference.
+Il tipo di `s` qui è `&str`: è uno slice che punta a quel punto specifico del binario. Questo è anche il motivo per cui i literal stringa sono immutabili; `&str` è un riferimento immutabile.
 
-#### String Slices as Parameters
+#### Slice di Stringa come Parametri
 
-Knowing that you can take slices of literals and `String` values leads us to
-one more improvement on `first_word`, and that’s its signature:
+Sapendo che puoi prendere slice di literal e valori `String` ci porta a un ulteriore miglioramento su `first_word`, che è la sua firma:
 
 ```rust,ignore
 fn first_word(s: &String) -> &str {
 ```
 
-A more experienced Rustacean would write the signature shown in Listing 4-9
-instead because it allows us to use the same function on both `&String` values
-and `&str` values.
+Un Rustacean più esperto scriverebbe la firma mostrata in Listing 4-9 invece perché ci permette di usare la stessa funzione sia su valori `&String` che su valori `&str`.
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-09/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 4-9: Improving the `first_word` function by using
-a string slice for the type of the `s` parameter</span>
+<span class="caption">Listing 4-9: Miglioramento della funzione `first_word` usando uno slice di stringa per il tipo del parametro `s`</span>
 
-If we have a string slice, we can pass that directly. If we have a `String`, we
-can pass a slice of the `String` or a reference to the `String`. This
-flexibility takes advantage of *deref coercions*, a feature we will cover in
-[“Implicit Deref Coercions with Functions and
-Methods”][deref-coercions]<!--ignore--> section of Chapter 15.
+Se abbiamo uno slice di stringa, possiamo passare quello direttamente. Se abbiamo una `String`, possiamo passare uno slice della `String` o un riferimento alla `String`. Questa flessibilità sfrutta le *coercizioni deref*, una funzione che copriremo nella sezione [“Implicit Deref Coercions with Functions and Methods”][deref-coercions]<!--ignore--> del Capitolo 15.
 
-Defining a function to take a string slice instead of a reference to a `String`
-makes our API more general and useful without losing any functionality:
+Definire una funzione per accettare uno slice di stringa invece di un riferimento a una `String` rende la nostra API più generale e utile senza perdere nessuna funzionalità:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch04-understanding-ownership/listing-04-09/src/main.rs:usage}}
 ```
 
-### Other Slices
+### Altri Slice
 
-String slices, as you might imagine, are specific to strings. But there’s a
-more general slice type too. Consider this array:
+Gli slice di stringa, come potresti immaginare, sono specifici per le stringhe. Ma c'è anche un tipo di slice più generale. Considera questo array:
 
 ```rust
 let a = [1, 2, 3, 4, 5];
 ```
 
-Just as we might want to refer to part of a string, we might want to refer to
-part of an array. We’d do so like this:
+Proprio come potremmo voler fare riferimento a parte di una stringa, potremmo voler fare riferimento a parte di un array. Lo faremmo in questo modo:
 
 ```rust
 let a = [1, 2, 3, 4, 5];
@@ -299,24 +207,16 @@ let slice = &a[1..3];
 assert_eq!(slice, &[2, 3]);
 ```
 
-This slice has the type `&[i32]`. It works the same way as string slices do, by
-storing a reference to the first element and a length. You’ll use this kind of
-slice for all sorts of other collections. We’ll discuss these collections in
-detail when we talk about vectors in Chapter 8.
+Questo slice ha il tipo `&[i32]`. Funziona allo stesso modo come fanno gli slice di stringa, memorizzando un riferimento al primo elemento e una lunghezza. Userai questo tipo di slice per ogni tipo di altre collezioni. Discuteremo queste collezioni nel dettaglio quando parleremo di vettori nel Capitolo 8.
 
-## Summary
+## Sommario
 
-The concepts of ownership, borrowing, and slices ensure memory safety in Rust
-programs at compile time. The Rust language gives you control over your memory
-usage in the same way as other systems programming languages, but having the
-owner of data automatically clean up that data when the owner goes out of scope
-means you don’t have to write and debug extra code to get this control.
+I concetti di ownership, prestito e slice garantiscono la sicurezza della memoria nei programmi Rust al momento della compilazione. Il linguaggio Rust ti dà il controllo sul tuo utilizzo della memoria nello stesso modo di altri linguaggi di programmazione di sistema, ma avere il proprietario dei dati pulire automaticamente tali dati quando il proprietario esce dallo scope significa che non devi scrivere e correggere codice extra per ottenere questo controllo.
 
-Ownership affects how lots of other parts of Rust work, so we’ll talk about
-these concepts further throughout the rest of the book. Let’s move on to
-Chapter 5 and look at grouping pieces of data together in a `struct`.
+L'Ownership influisce su come funzionano molte altre parti di Rust, quindi parleremo di questi concetti ulteriormente durante il resto del libro. Passiamo al Capitolo 5 e guardiamo al raggruppamento di pezzi di dati insieme in un `struct`.
 
 [ch13]: ch13-02-iterators.html
 [ch6]: ch06-02-match.html#patterns-that-bind-to-values
 [strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
 [deref-coercions]: ch15-02-deref.html#implicit-deref-coercions-with-functions-and-methods
+

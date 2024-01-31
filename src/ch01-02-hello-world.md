@@ -1,94 +1,94 @@
-## Hello, World!
+## Ciao, Mondo!
 
-Now that you’ve installed Rust, it’s time to write your first Rust program.
-It’s traditional when learning a new language to write a little program that
-prints the text `Hello, world!` to the screen, so we’ll do the same here!
+Ora che hai installato Rust, è il momento di scrivere il tuo primo programma in Rust.
+È tradizione quando si impara un nuovo linguaggio scrivere un piccolo programma che
+stampa il testo `Ciao, mondo!` sullo schermo, quindi faremo lo stesso qui!
 
-> Note: This book assumes basic familiarity with the command line. Rust makes
-> no specific demands about your editing or tooling or where your code lives, so
-> if you prefer to use an integrated development environment (IDE) instead of
-> the command line, feel free to use your favorite IDE. Many IDEs now have some
-> degree of Rust support; check the IDE’s documentation for details. The Rust
-> team has been focusing on enabling great IDE support via `rust-analyzer`. See
-> [Appendix D][devtools]<!-- ignore --> for more details.
+> Nota: Questo libro presume una conoscenza di base della linea di comando. Rust non impone
+> nessuna richiesta specifica riguardo al tuo editor o strumenti o dove risiede il tuo codice, quindi
+> se preferisci utilizzare un ambiente di sviluppo integrato (IDE) invece della
+> linea di comando, sentiti libero di usare il tuo IDE preferito. Molti IDE adesso hanno un certo
+> grado di supporto per Rust; controlla la documentazione dell'IDE per i dettagli. Il team di Rust
+> si è concentrato su abilitare un grande supporto IDE tramite `rust-analyzer`. Guarda
+> [Appendice D][devtools]<!-- ignora --> per maggiori dettagli.
 
-### Creating a Project Directory
+### Creare una Directory di Progetto
 
-You’ll start by making a directory to store your Rust code. It doesn’t matter
-to Rust where your code lives, but for the exercises and projects in this book,
-we suggest making a *projects* directory in your home directory and keeping all
-your projects there.
+Inizierai creando una directory per memorizzare il tuo codice Rust. Non importa
+a Rust dove risiede il tuo codice, ma per gli esercizi e i progetti in questo libro,
+suggeriamo di creare una directory *progetti* nella tua directory home e mantenere tutti
+i tuoi progetti lì.
 
-Open a terminal and enter the following commands to make a *projects* directory
-and a directory for the “Hello, world!” project within the *projects* directory.
+Apri un terminale e inserisci i seguenti comandi per creare una directory *progetti*
+e una directory per il progetto "Ciao, mondo!" all'interno della directory *progetti*.
 
-For Linux, macOS, and PowerShell on Windows, enter this:
+Per Linux, macOS, e PowerShell su Windows, inserisci questo:
 
 ```console
-$ mkdir ~/projects
-$ cd ~/projects
-$ mkdir hello_world
-$ cd hello_world
+$ mkdir ~/progetti
+$ cd ~/progetti
+$ mkdir ciao_mondo
+$ cd ciao_mondo
 ```
 
-For Windows CMD, enter this:
+Per CMD di Windows, inserisci questo:
 
 ```cmd
-> mkdir "%USERPROFILE%\projects"
-> cd /d "%USERPROFILE%\projects"
-> mkdir hello_world
-> cd hello_world
+> mkdir "%USERPROFILE%\progetti"
+> cd /d "%USERPROFILE%\progetti"
+> mkdir ciao_mondo
+> cd ciao_mondo
 ```
 
-### Writing and Running a Rust Program
+### Scrivere ed Eseguire un Programma Rust
 
-Next, make a new source file and call it *main.rs*. Rust files always end with
-the *.rs* extension. If you’re using more than one word in your filename, the
-convention is to use an underscore to separate them. For example, use
-*hello_world.rs* rather than *helloworld.rs*.
+Poi, crea un nuovo file sorgente e chiamalo *main.rs*. I file Rust finiscono sempre con
+l'estensione *.rs*. Se stai utilizzando più di una parola nel tuo nome file, la
+convenzione è di usare un underscore per separarle. Per esempio, usa
+*ciao_mondo.rs* invece di *ciaomondo.rs*.
 
-Now open the *main.rs* file you just created and enter the code in Listing 1-1.
+Ora apri il file *main.rs* che hai appena creato e inserisci il codice in Elenco 1-1.
 
-<span class="filename">Filename: main.rs</span>
+<span class="filename">Nome file: main.rs</span>
 
 ```rust
 fn main() {
-    println!("Hello, world!");
+    println!("Ciao, mondo!");
 }
 ```
 
-<span class="caption">Listing 1-1: A program that prints `Hello, world!`</span>
+<span class="caption">Elenco 1-1: Un programma che stampa `Ciao, mondo!`</span>
 
-Save the file and go back to your terminal window in the
-*~/projects/hello_world* directory. On Linux or macOS, enter the following
-commands to compile and run the file:
+Salva il file e torna alla tua finestra del terminale nella
+directory *~/progetti/ciao_mondo*. Su Linux o macOS, inserisci i seguenti
+comandi per compilare ed eseguire il file:
 
 ```console
 $ rustc main.rs
 $ ./main
-Hello, world!
+Ciao, mondo!
 ```
 
-On Windows, enter the command `.\main.exe` instead of `./main`:
+Su Windows, inserisci il comando `.\main.exe` invece di `./main`:
 
 ```powershell
 > rustc main.rs
 > .\main.exe
-Hello, world!
+Ciao, mondo!
 ```
 
-Regardless of your operating system, the string `Hello, world!` should print to
-the terminal. If you don’t see this output, refer back to the
-[“Troubleshooting”][troubleshooting]<!-- ignore --> part of the Installation
-section for ways to get help.
+Indipendentemente dal tuo sistema operativo, la stringa `Ciao, mondo!` dovrebbe essere stampata su
+il terminale. Se non vedi questo output, torna alla
+[“Risoluzione dei problemi”][troubleshooting]<!-- ignora --> parte della sezione di Installazione
+per trovate modi per ottenere aiuto.
 
-If `Hello, world!` did print, congratulations! You’ve officially written a Rust
-program. That makes you a Rust programmer—welcome!
+Se `Ciao, mondo!` è stato stampato, congratulazioni! Hai ufficialmente scritto un programma Rust.
+Questo ti rende un programmatore Rust—benvenuto!
 
-### Anatomy of a Rust Program
+### Anatomia di un Programma Rust
 
-Let’s review this “Hello, world!” program in detail. Here’s the first piece of
-the puzzle:
+Rivediamo in dettaglio questo programma "Ciao, mondo!". Ecco il primo pezzo del
+puzzle:
 
 ```rust
 fn main() {
@@ -96,106 +96,93 @@ fn main() {
 }
 ```
 
-These lines define a function named `main`. The `main` function is special: it
-is always the first code that runs in every executable Rust program. Here, the
-first line declares a function named `main` that has no parameters and returns
-nothing. If there were parameters, they would go inside the parentheses `()`.
+Queste righe definiscono una funzione chiamata `main`. La funzione `main` è speciale: è
+sempre il primo codice che viene eseguito in ogni programma Rust eseguibile. Qui, la
+prima riga dichiara una funzione chiamata `main` che non ha parametri e non ritorna niente.
+Se ci fossero dei parametri, andrebbero dentro le parentesi `()`.
 
-The function body is wrapped in `{}`. Rust requires curly brackets around all
-function bodies. It’s good style to place the opening curly bracket on the same
-line as the function declaration, adding one space in between.
+Il corpo della funzione è racchiuso in `{}`. Rust richiede parentesi graffe attorno a tutti i
+corpi della funzione. È buona pratica mettere la parentesi graffa di apertura sulla stessa
+riga come la dichiarazione della funzione, aggiungendo uno spazio in mezzo.
 
-> Note: If you want to stick to a standard style across Rust projects, you can
-> use an automatic formatter tool called `rustfmt` to format your code in a
-> particular style (more on `rustfmt` in
-> [Appendix D][devtools]<!-- ignore -->). The Rust team has included this tool
-> with the standard Rust distribution, as `rustc` is, so it should already be
-> installed on your computer!
+> Nota: Se vuoi attenerti a uno stile standard nei progetti Rust, puoi
+> usare uno strumento di formattazione automatico chiamato `rustfmt` per formattare il tuo codice in uno
+> stile particolare (più su `rustfmt` in
+> [Appendice D][devtools]<!-- ignora -->). Il team Rust ha incluso questo strumento
+> con la distribuzione standard Rust, come `rustc` lo è, quindi dovrebbe già essere
+> installato sul tuo computer!
 
-The body of the `main` function holds the following code:
+Il corpo della funzione `main` contiene il seguente codice:
 
 ```rust
-    println!("Hello, world!");
+    println!("Ciao, mondo!");
 ```
 
-This line does all the work in this little program: it prints text to the
-screen. There are four important details to notice here.
+Questa riga fa tutto il lavoro in questo piccolo programma: stampa il testo sullo
+schermo. Ci sono quattro dettagli importanti da notare qui.
 
-First, Rust style is to indent with four spaces, not a tab.
+Prima, lo stile Rust è di indentare con quattro spazi, non un tab.
 
-Second, `println!` calls a Rust macro. If it had called a function instead, it
-would be entered as `println` (without the `!`). We’ll discuss Rust macros in
-more detail in Chapter 19. For now, you just need to know that using a `!`
-means that you’re calling a macro instead of a normal function and that macros
-don’t always follow the same rules as functions.
+Seconda, `println!` chiama un macro Rust. Se avesse chiamato una funzione invece, sarebbe stato inserito come `println` (senza il `!`). Discuteremo i macro Rust in più dettaglio nel Capitolo 19. Per ora, hai solo bisogno di sapere che usare un `!` significa che stai chiamando un macro invece di una funzione normale e che i macro non seguono sempre le stesse regole delle funzioni.
 
-Third, you see the `"Hello, world!"` string. We pass this string as an argument
-to `println!`, and the string is printed to the screen.
+Terza, vedi la stringa `"Ciao, mondo!"`. Passiamo questa stringa come argomento a `println!`, e la stringa viene stampata sullo schermo.
 
-Fourth, we end the line with a semicolon (`;`), which indicates that this
-expression is over and the next one is ready to begin. Most lines of Rust code
-end with a semicolon.
+Quarta, terminiamo la riga con un punto e virgola (`;`), il quale indica che questa
+espressione è finita e la prossima è pronta per iniziare. La maggior parte delle righe di codice Rust
+terminano con un punto e virgola.
 
-### Compiling and Running Are Separate Steps
+### La Compilazione e l'Esecuzione Sono Fasi Separate
 
-You’ve just run a newly created program, so let’s examine each step in the
-process.
+Hai appena eseguito un programma appena creato, quindi esaminiamo ogni fase nel
+processo.
 
-Before running a Rust program, you must compile it using the Rust compiler by
-entering the `rustc` command and passing it the name of your source file, like
-this:
+Prima di eseguire un programma Rust, devi compilarlo usando il compilatore Rust inserendo il comando `rustc` e passandogli il nome del tuo file sorgente, come questo:
 
 ```console
 $ rustc main.rs
 ```
 
-If you have a C or C++ background, you’ll notice that this is similar to `gcc`
-or `clang`. After compiling successfully, Rust outputs a binary executable.
+Se hai un background in C o C++, noterai che questo è simile a `gcc`
+o `clang`. Dopo aver compilato con successo, Rust emette un eseguibile binario.
 
-On Linux, macOS, and PowerShell on Windows, you can see the executable by
-entering the `ls` command in your shell:
+Su Linux, macOS, e PowerShell su Windows, puoi vedere l'eseguibile inserendo il comando `ls` nel tuo shell:
 
 ```console
 $ ls
 main  main.rs
 ```
 
-On Linux and macOS, you’ll see two files. With PowerShell on Windows, you’ll
-see the same three files that you would see using CMD. With CMD on Windows, you
-would enter the following:
+Su Linux e macOS, vedrai due file. Con PowerShell su Windows, vedrai gli stessi tre file che vedresti usando CMD. Con CMD su Windows, inseriresti il seguente:
 
 ```cmd
-> dir /B %= the /B option says to only show the file names =%
+> dir /B %= l'opzione /B dice di mostrare solo i nomi dei file =%
 main.exe
 main.pdb
 main.rs
 ```
 
-This shows the source code file with the *.rs* extension, the executable file
-(*main.exe* on Windows, but *main* on all other platforms), and, when using
-Windows, a file containing debugging information with the *.pdb* extension.
-From here, you run the *main* or *main.exe* file, like this:
+Questo mostra il file sorgente con l'estensione *.rs*, il file eseguibile (*main.exe* su Windows, ma *main* su tutte le altre piattaforme), e, quando si usa Windows, un file contenente informazioni di debug con l'estensione *.pdb*.
+Da qui, esegui il file *main* o *main.exe*, così:
 
 ```console
-$ ./main # or .\main.exe on Windows
+$ ./main # o .\main.exe su Windows
 ```
 
-If your *main.rs* is your “Hello, world!” program, this line prints `Hello,
-world!` to your terminal.
+Se il tuo *main.rs* è il tuo programma "Ciao, mondo!", questa riga stampa `Ciao,
+mondo!` sul tuo terminale.
 
-If you’re more familiar with a dynamic language, such as Ruby, Python, or
-JavaScript, you might not be used to compiling and running a program as
-separate steps. Rust is an *ahead-of-time compiled* language, meaning you can
-compile a program and give the executable to someone else, and they can run it
-even without having Rust installed. If you give someone a *.rb*, *.py*, or
-*.js* file, they need to have a Ruby, Python, or JavaScript implementation
-installed (respectively). But in those languages, you only need one command to
-compile and run your program. Everything is a trade-off in language design.
+Se sei più familiare con un linguaggio dinamico, come Ruby, Python, o
+JavaScript, potresti non essere abituato a compilare ed eseguire un programma come
+fasi separate. Rust è un linguaggio *compilato in anticipo*, il che significa che puoi
+compilare un programma e dare l'eseguibile a qualcun altro, e possono eseguirlo
+anche senza avere Rust installato. Se dai a qualcuno un file *.rb*, *.py*, o *.js*, hanno bisogno di avere un'implementazione Ruby, Python, o JavaScript installata (rispettivamente). Ma in quei linguaggi, hai bisogno di un solo comando per
+compilare ed eseguire il tuo programma. Tutto è un compromesso nella progettazione del linguaggio.
 
-Just compiling with `rustc` is fine for simple programs, but as your project
-grows, you’ll want to manage all the options and make it easy to share your
-code. Next, we’ll introduce you to the Cargo tool, which will help you write
-real-world Rust programs.
+Compilare con `rustc` è ottimo per programmi semplici, ma quando il tuo progetto
+cresce, vorrai gestire tutte le opzioni e rendere facile condividere il tuo
+codice. Prossima, ti presenteremo lo strumento Cargo, che ti aiuterà a scrivere
+programmi Rust nel mondo reale.
 
 [troubleshooting]: ch01-01-installation.html#troubleshooting
 [devtools]: appendix-04-useful-development-tools.html
+

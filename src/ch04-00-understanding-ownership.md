@@ -1,7 +1,8 @@
-# Understanding Ownership
+# Comprendere l'Ownership
 
-Ownership is Rust’s most unique feature and has deep implications for the rest
-of the language. It enables Rust to make memory safety guarantees without
-needing a garbage collector, so it’s important to understand how ownership
-works. In this chapter, we’ll talk about ownership as well as several related
-features: borrowing, slices, and how Rust lays data out in memory.
+L'Ownership è la caratteristica più unica di Rust e ha profonde implicazioni per il
+resto del linguaggio. Consente a Rust di garantire la sicurezza della memoria senza
+aver bisogno di un garbage collector, quindi è importante capire come funziona l'ownership.
+In questo capitolo, parleremo di ownership così come di diverse caratteristiche correlate:
+il borrowing, le slice, e come Rust dispone i dati in memoria.
+

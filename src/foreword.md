@@ -1,41 +1,40 @@
-# Foreword
+# Prefazione
 
-It wasn’t always so clear, but the Rust programming language is fundamentally
-about *empowerment*: no matter what kind of code you are writing now, Rust
-empowers you to reach farther, to program with confidence in a wider variety of
-domains than you did before.
+Non è sempre stato così chiaro, ma il linguaggio di programmazione Rust è fondamentalmente
+circa *l'empowerment*: non importa che tipo di codice stai scrivendo ora, Rust
+ti dà il potere di andare più lontano, di programmare con fiducia in una varietà più ampia
+di domini che prima.
 
-Take, for example, “systems-level” work that deals with low-level details of
-memory management, data representation, and concurrency. Traditionally, this
-realm of programming is seen as arcane, accessible only to a select few who
-have devoted the necessary years learning to avoid its infamous pitfalls. And
-even those who practice it do so with caution, lest their code be open to
-exploits, crashes, or corruption.
+Prendi, ad esempio, il lavoro a "livello di sistema" che si occupa di dettagli di basso livello di
+gestione della memoria, rappresentazione dei dati e Concurrency. Tradizionalmente, questo
+ambito di programmazione è visto come arcano, accessibile solo a pochi eletti che
+hanno dedicato gli anni necessari per imparare a evitare le sue trappole infami. E
+anche coloro che lo praticano lo fanno con cautela, affinché il loro codice non sia aperto a
+exploit, crash, o corruzione.
 
-Rust breaks down these barriers by eliminating the old pitfalls and providing a
-friendly, polished set of tools to help you along the way. Programmers who need
-to “dip down” into lower-level control can do so with Rust, without taking on
-the customary risk of crashes or security holes, and without having to learn
-the fine points of a fickle toolchain. Better yet, the language is designed to
-guide you naturally towards reliable code that is efficient in terms of speed
-and memory usage.
+Rust elimina queste barriere eliminando le vecchie trappole e fornendo un
+set di strumenti amichevole e lucidato per aiutarti lungo il percorso. I programmatori che hanno bisogno
+di "scendere" a un controllo di livello inferiore possono farlo con Rust, senza assumere
+il rischio abituale di crash o buchi di sicurezza, e senza dover imparare
+i punti sottili di un toolchain capriccioso. Ancora meglio, il linguaggio è progettato per
+guidarti naturalmente verso il codice affidabile che è efficiente in termini di velocità
+e uso della memoria.
 
-Programmers who are already working with low-level code can use Rust to raise
-their ambitions. For example, introducing parallelism in Rust is a relatively
-low-risk operation: the compiler will catch the classical mistakes for you. And
-you can tackle more aggressive optimizations in your code with the confidence
-that you won’t accidentally introduce crashes or vulnerabilities.
+I programmatori che stanno già lavorando con codice a basso livello possono usare Rust per aumentare
+le loro ambizioni. Ad esempio, l'introduzione del parallelismo in Rust è una 
+operazione a basso rischio: il compilatore catturerà i classici errori per te. E
+puoi affrontare ottimizzazioni più aggressive nel tuo codice con la fiducia
+che non introdurrà accidentalmente crash o vulnerabilità.
 
-But Rust isn’t limited to low-level systems programming. It’s expressive and
-ergonomic enough to make CLI apps, web servers, and many other kinds of code
-quite pleasant to write — you’ll find simple examples of both later in the
-book. Working with Rust allows you to build skills that transfer from one
-domain to another; you can learn Rust by writing a web app, then apply those
-same skills to target your Raspberry Pi.
+Ma Rust non si limita alla programmazione di sistemi a basso livello. È abbastanza espressivo e
+ergonomico per rendere piacevole scrivere app CLI, server web e molti altri tipi di codice - troverai semplici esempi di entrambi più avanti nel
+libro. Lavorare con Rust ti permette di sviluppare competenze che si trasferiscono da un
+dominio all'altro; puoi imparare Rust scrivendo un'app web, poi applicare quelle
+stesse competenze per targettare il tuo Raspberry Pi.
 
-This book fully embraces the potential of Rust to empower its users. It’s a
-friendly and approachable text intended to help you level up not just your
-knowledge of Rust, but also your reach and confidence as a programmer in
-general. So dive in, get ready to learn—and welcome to the Rust community!
+Questo libro abbraccia pienamente il potenziale di Rust per potenziare i suoi utenti. È un
+testo amichevole e accessibile, pensato per aiutarti a fare un salto di livello non solo nella tua
+conoscenza di Rust, ma anche nel tuo reach e nella tua confidenza come programmatore in
+generale. Quindi immergiti, preparati a imparare - e benvenuto nella comunità Rust!
 
-— Nicholas Matsakis and Aaron Turon
+— Nicholas Matsakis e Aaron Turon

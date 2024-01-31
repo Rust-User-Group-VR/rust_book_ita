@@ -1,383 +1,367 @@
-## Data Types
+## Tipi di Dati
 
-Every value in Rust is of a certain *data type*, which tells Rust what kind of
-data is being specified so it knows how to work with that data. We’ll look at
-two data type subsets: scalar and compound.
+Ogni valore in Rust ha un certo *tipo di dato*, che indica a Rust che tipo di
+dati viene specificato così sa come lavorare con essi. Guarderemo a
+due sottoinsiemi di tipo di dati: scalare e composto.
 
-Keep in mind that Rust is a *statically typed* language, which means that it
-must know the types of all variables at compile time. The compiler can usually
-infer what type we want to use based on the value and how we use it. In cases
-when many types are possible, such as when we converted a `String` to a numeric
-type using `parse` in the [“Comparing the Guess to the Secret
-Number”][comparing-the-guess-to-the-secret-number]<!-- ignore --> section in
-Chapter 2, we must add a type annotation, like this:
+Ricorda che Rust è un linguaggio *tipizzato staticamente*, il che significa
+che deve conoscere i tipi di tutte le variabili al momento della compilazione.
+Il compilatore di solito può inferire il tipo che vogliamo usare in base al valore
+e al modo in cui lo usiamo. In casi in cui sono possibili molti tipi, come quando abbiamo convertito una `String` in un tipo numerico usando `parse` nella sezione [“Comparando il tentativo con il numero segreto”][comparando-il-tentativo-al-numero-segreto]<!-- ignore --> nel
+Capitolo 2, dobbiamo aggiungere un'annotazione di tipo, come questa:
 
 ```rust
-let guess: u32 = "42".parse().expect("Not a number!");
+let guess: u32 = "42".parse().expect("Non un numero!");
 ```
 
-If we don’t add the `: u32` type annotation shown in the preceding code, Rust
-will display the following error, which means the compiler needs more
-information from us to know which type we want to use:
+Se non aggiungiamo l'annotazione di tipo `: u32` mostrata nel codice precedente, Rust
+mostrerà il seguente errore, il quale indica che il compilatore ha bisogno di più
+informazioni da noi per sapere quale tipo vogliamo usare:
 
 ```console
 {{#include ../listings/ch03-common-programming-concepts/output-only-01-no-type-annotations/output.txt}}
 ```
 
-You’ll see different type annotations for other data types.
+Vedrai annotazioni di tipo diverse per altri tipi di dati.
 
-### Scalar Types
+### Tipi Scalari
 
-A *scalar* type represents a single value. Rust has four primary scalar types:
-integers, floating-point numbers, Booleans, and characters. You may recognize
-these from other programming languages. Let’s jump into how they work in Rust.
+Un tipo *scalare* rappresenta un singolo valore. Rust ha quattro tipi scalari principali:
+interi, numeri a virgola mobile, booleani e caratteri. Potresti riconoscere
+questi da altri linguaggi di programmazione. Saltiamo su come funzionano in Rust.
 
-#### Integer Types
+#### Tipi Intero
 
-An *integer* is a number without a fractional component. We used one integer
-type in Chapter 2, the `u32` type. This type declaration indicates that the
-value it’s associated with should be an unsigned integer (signed integer types
-start with `i` instead of `u`) that takes up 32 bits of space. Table 3-1 shows
-the built-in integer types in Rust. We can use any of these variants to declare
-the type of an integer value.
+Un *intero* è un numero senza una componente frazionaria. Abbiamo usato un tipo intero
+nel Capitolo 2, il tipo `u32`. Questa dichiarazione di tipo indica che il
+valore ad essa associato dovrebbe essere un intero non firmato (i tipi di interi
+firmati iniziano con `i` invece di `u`) che occupa 32 bit di spazio. La Tabella 3-1 mostra
+i tipi di interi incorporati in Rust. Possiamo usare qualsiasi di queste varianti per dichiarare
+il tipo di un valore intero.
 
-<span class="caption">Table 3-1: Integer Types in Rust</span>
+<span class="caption">Tabella 3-1: Tipi Intero in Rust</span>
 
-| Length  | Signed  | Unsigned |
-|---------|---------|----------|
-| 8-bit   | `i8`    | `u8`     |
-| 16-bit  | `i16`   | `u16`    |
-| 32-bit  | `i32`   | `u32`    |
-| 64-bit  | `i64`   | `u64`    |
-| 128-bit | `i128`  | `u128`   |
-| arch    | `isize` | `usize`  |
+| Lunghezza | Firmato | Non firmato |
+|----------|---------|-------------|
+| 8-bit    | `i8`    | `u8`        |
+| 16-bit   | `i16`   | `u16`       |
+| 32-bit   | `i32`   | `u32`       |
+| 64-bit   | `i64`   | `u64`       |
+| 128-bit  | `i128`  | `u128`      |
+| arch     | `isize` | `usize`     |
 
-Each variant can be either signed or unsigned and has an explicit size.
-*Signed* and *unsigned* refer to whether it’s possible for the number to be
-negative—in other words, whether the number needs to have a sign with it
-(signed) or whether it will only ever be positive and can therefore be
-represented without a sign (unsigned). It’s like writing numbers on paper: when
-the sign matters, a number is shown with a plus sign or a minus sign; however,
-when it’s safe to assume the number is positive, it’s shown with no sign.
-Signed numbers are stored using [two’s complement][twos-complement]<!-- ignore
---> representation.
+Ogni variante può essere firmata o non firmata e ha una dimensione esplicita.
+*Firmato* e *non firmato* si riferiscono alla possibilità che il numero sia
+negativo—in altre parole, se il numero deve avere un segno con esso
+(firmato) o se sará sempre positivo e quindi può essere
+rappresentato senza un segno (non firmato). È come scrivere numeri su carta: quando
+il segno conta, un numero viene mostrato con un segno più o un segno meno; tuttavia,
+quando è sicuro assumere che il numero è positivo, viene mostrato senza segno.
+I numeri firmati sono memorizzati usando la rappresentazione a [complemento a due][complemento-a-due]<!-- ignore -->.
 
-Each signed variant can store numbers from -(2<sup>n - 1</sup>) to 2<sup>n -
-1</sup> - 1 inclusive, where *n* is the number of bits that variant uses. So an
-`i8` can store numbers from -(2<sup>7</sup>) to 2<sup>7</sup> - 1, which equals
--128 to 127. Unsigned variants can store numbers from 0 to 2<sup>n</sup> - 1,
-so a `u8` can store numbers from 0 to 2<sup>8</sup> - 1, which equals 0 to 255.
+Ogni variante firmata può memorizzare numeri da -(2<sup>n - 1</sup>) a 2<sup>n -
+1</sup> - 1 incluso, dove *n* è il numero di bit che quella variante usa. Quindi un
+`i8` può memorizzare numeri da -(2<sup>7</sup>) a 2<sup>7</sup> - 1, che equivale
+da -128 a 127. Le varianti non firmate possono memorizzare numeri da 0 a 2<sup>n</sup> - 1,
+quindi un `u8` può memorizzare numeri da 0 a 2<sup>8</sup> - 1, che equivale da 0 a 255.
 
-Additionally, the `isize` and `usize` types depend on the architecture of the
-computer your program is running on, which is denoted in the table as “arch”:
-64 bits if you’re on a 64-bit architecture and 32 bits if you’re on a 32-bit
-architecture.
+Inoltre, i tipi `isize` e `usize` dipendono dall'architettura del
+computer su cui il tuo programma sta girando, che viene denotata nella tabella come “arch”:
+64 bit se sei su una architettura a 64 bit e 32 bit se sei su una architettura a 32 bit.
 
-You can write integer literals in any of the forms shown in Table 3-2. Note
-that number literals that can be multiple numeric types allow a type suffix,
-such as `57u8`, to designate the type. Number literals can also use `_` as a
-visual separator to make the number easier to read, such as `1_000`, which will
-have the same value as if you had specified `1000`.
+Puoi scrivere letterali interi in uno dei formati mostrati nella Tabella 3-2. Nota
+che i letterali numerici che possono essere di molti tipi numerici consentono un suffisso di tipo,
+come `57u8`, per designare il tipo. I letterali numerici possono anche utilizzare `_` come
+separatore visivo per rendere il numero più facile da leggere, come `1_000`, che avrà
+lo stesso valore come se tu avessi specificato `1000`.
 
-<span class="caption">Table 3-2: Integer Literals in Rust</span>
+<span class="caption">Tabella 3-2: Letterali Intero in Rust</span>
 
-| Number literals  | Example       |
-|------------------|---------------|
-| Decimal          | `98_222`      |
-| Hex              | `0xff`        |
-| Octal            | `0o77`        |
-| Binary           | `0b1111_0000` |
-| Byte (`u8` only) | `b'A'`        |
+| Letterali numerici | Esempio      |
+|--------------------|--------------|
+| Decimale           | `98_222`     |
+| Hex                | `0xff`       |
+| Ottale             | `0o77`       |
+| Binario            | `0b1111_0000`|
+| Byte (solo `u8`)   | `b'A'`       |
 
-So how do you know which type of integer to use? If you’re unsure, Rust’s
-defaults are generally good places to start: integer types default to `i32`.
-The primary situation in which you’d use `isize` or `usize` is when indexing
-some sort of collection.
+Quindi come sai quale tipo di intero usare? Se non sei sicuro, i default di Rust
+sono generalmente buoni punti di partenza: i tipi interi sono impostati di default su `i32`.
+La situazione principale in cui useresti `isize` o `usize` è quando stai indicizzando
+un certo tipo di collezione.
 
-> ##### Integer Overflow
+> ##### Overflow Intero
 >
-> Let’s say you have a variable of type `u8` that can hold values between 0 and
-> 255. If you try to change the variable to a value outside that range, such as
-> 256, *integer overflow* will occur, which can result in one of two behaviors.
-> When you’re compiling in debug mode, Rust includes checks for integer overflow
-> that cause your program to *panic* at runtime if this behavior occurs. Rust
-> uses the term *panicking* when a program exits with an error; we’ll discuss
-> panics in more depth in the [“Unrecoverable Errors with
-> `panic!`”][unrecoverable-errors-with-panic]<!-- ignore --> section in Chapter
+> Poniamo il caso tu abbia una variabile di tipo `u8` che può contenere valori tra 0 e
+> 255. Se provi a cambiare la variabile in un valore al di fuori di quel range, come
+> 256, si verificherà un *overflow intero*, che può risultare in uno dei due comportamenti.
+> Quando stai compilando in modalità debug, Rust include controlli per l'overflow intero
+> che causano un *panico* nel tuo programma a runtime se questo comportamento si verifica. Rust
+> usa il termine *panico* quando un programma esce con un errore; discuteremo
+> i panici più approfonditamente nella sezione [“Errori irreversibili con
+> `panic!`”][errori-irrecuperabili-con-panic]<!-- ignore --> nel Capitolo
 > 9.
 >
-> When you’re compiling in release mode with the `--release` flag, Rust does
-> *not* include checks for integer overflow that cause panics. Instead, if
-> overflow occurs, Rust performs *two’s complement wrapping*. In short, values
-> greater than the maximum value the type can hold “wrap around” to the minimum
-> of the values the type can hold. In the case of a `u8`, the value 256 becomes
-> 0, the value 257 becomes 1, and so on. The program won’t panic, but the
-> variable will have a value that probably isn’t what you were expecting it to
-> have. Relying on integer overflow’s wrapping behavior is considered an error.
+> Quando stai compilando in modalità rilascio con il flag `--release`, Rust *non*
+> include controlli per l'overflow intero che causano panici. Invece, se
+> si verifica un overflow, Rust esegue una *complementazione a due*. In parole povere, i valori
+> maggiori del valore massimo che il tipo può contenere "circolano" al minimo
+> dei valori che il tipo può contenere. Nel caso di un `u8`, il valore 256 diventa
+> 0, il valore 257 diventa 1, e così via. Il programma non andrà in panico, ma la
+> variabile avrà un valore che probabilmente non ti aspettavi avesse. Fare affidamento sul comportamento avvolgente dell'overflow intero è considerato un errore.
 >
-> To explicitly handle the possibility of overflow, you can use these families
-> of methods provided by the standard library for primitive numeric types:
+> Per gestire esplicitamente la possibilità di overflow, puoi utilizzare queste famiglie
+> di metodi fornite dalla libreria standard per i tipi numerici primitivi:
 >
-> * Wrap in all modes with the `wrapping_*` methods, such as `wrapping_add`.
-> * Return the `None` value if there is overflow with the `checked_*` methods.
-> * Return the value and a boolean indicating whether there was overflow with
->   the `overflowing_*` methods.
-> * Saturate at the value’s minimum or maximum values with the `saturating_*`
->   methods.
+> * Avvolgere in tutte le modalità con i metodi `wrapping_*`, come `wrapping_add`.
+> * Ritorna il valore `None` se c'è overflow con i metodi `checked_*`.
+> * Ritorna il valore e un booleano che indica se c'era overflow con
+>   i metodi `overflowing_*`.
+> * Satura ai valori minimi o massimi del valore con i metodi `saturating_*`.
 
-#### Floating-Point Types
+#### Tipi a Virgola Mobile
 
-Rust also has two primitive types for *floating-point numbers*, which are
-numbers with decimal points. Rust’s floating-point types are `f32` and `f64`,
-which are 32 bits and 64 bits in size, respectively. The default type is `f64`
-because on modern CPUs, it’s roughly the same speed as `f32` but is capable of
-more precision. All floating-point types are signed.
+Rust ha anche due tipi primitivi per i numeri *a virgola mobile*, che sono
+numeri con punti decimali. I tipi a virgola mobile di Rust sono `f32` e `f64`,
+che sono rispettivamente di 32 bit e 64 bit. Il tipo di default è `f64`
+perché sui moderni CPU, è circa della stessa velocità di `f32` ma è capace di
+più precisione. Tutti i tipi a virgola mobile sono firmati.
 
-Here’s an example that shows floating-point numbers in action:
+Ecco un esempio che mostra i numeri a virgola mobile in azione:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-06-floating-point/src/main.rs}}
 ```
 
-Floating-point numbers are represented according to the IEEE-754 standard. The
-`f32` type is a single-precision float, and `f64` has double precision.
+I numeri a virgola mobile sono rappresentati secondo lo standard IEEE-754. Il
+tipo `f32` è un float a singola precisione, e `f64` ha doppia precisione.
 
-#### Numeric Operations
+#### Operazioni Numeriche
 
-Rust supports the basic mathematical operations you’d expect for all the number
-types: addition, subtraction, multiplication, division, and remainder. Integer
-division truncates toward zero to the nearest integer. The following code shows
-how you’d use each numeric operation in a `let` statement:
+Rust supporta le operazioni matematiche di base che ti aspetteresti per tutti i numeri
+tipi: somma, sottrazione, moltiplicazione, divisione e resto. La divisione intera tronca verso zero al più vicino intero. Il seguente codice mostra
+come usaresti ogni operazione numerica in un'istruzione `let`:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome del file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-07-numeric-operations/src/main.rs}}
 ```
+Ogni espressione in queste dichiarazioni utilizza un operatore matematico e restituisce
+un singolo valore, che viene poi associato a una variabile. [Appendice
+B][appendix_b]<!-- ignore --> contiene un elenco di tutti gli operatori che Rust
+fornisce.
 
-Each expression in these statements uses a mathematical operator and evaluates
-to a single value, which is then bound to a variable. [Appendix
-B][appendix_b]<!-- ignore --> contains a list of all operators that Rust
-provides.
+#### Il Tipo Booleano
 
-#### The Boolean Type
+Come nella maggior parte degli altri linguaggi di programmazione, un tipo booleano in Rust ha due possibili
+valori: `true` e `false`. I booleani occupano un byte di dimensione. Il tipo booleano in
+Rust è specificato usando `bool`. Ad esempio:
 
-As in most other programming languages, a Boolean type in Rust has two possible
-values: `true` and `false`. Booleans are one byte in size. The Boolean type in
-Rust is specified using `bool`. For example:
-
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-08-boolean/src/main.rs}}
 ```
 
-The main way to use Boolean values is through conditionals, such as an `if`
-expression. We’ll cover how `if` expressions work in Rust in the [“Control
-Flow”][control-flow]<!-- ignore --> section.
+Il modo principale per utilizzare i valori booleani è attraverso condizionali, come un' espressione `if`.
+Tratteremo il modo in cui le espressioni `if` funzionano in Rust nella sezione [“Control
+Flow”][control-flow]<!-- ignore -->.
 
-#### The Character Type
+#### Il Tipo Carattere
 
-Rust’s `char` type is the language’s most primitive alphabetic type. Here are
-some examples of declaring `char` values:
+Il tipo `char` di Rust è il tipo alfabetico più primitivo del linguaggio. Ecco
+alcuni esempi di dichiarazione di valori `char`:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-09-char/src/main.rs}}
 ```
 
-Note that we specify `char` literals with single quotes, as opposed to string
-literals, which use double quotes. Rust’s `char` type is four bytes in size and
-represents a Unicode Scalar Value, which means it can represent a lot more than
-just ASCII. Accented letters; Chinese, Japanese, and Korean characters; emoji;
-and zero-width spaces are all valid `char` values in Rust. Unicode Scalar
-Values range from `U+0000` to `U+D7FF` and `U+E000` to `U+10FFFF` inclusive.
-However, a “character” isn’t really a concept in Unicode, so your human
-intuition for what a “character” is may not match up with what a `char` is in
-Rust. We’ll discuss this topic in detail in [“Storing UTF-8 Encoded Text with
-Strings”][strings]<!-- ignore --> in Chapter 8.
+Si noti che specificiamo i letterali `char` con singole virgolette, a differenza dei letterali di stringa,
+che usano le virgolette doppie. Il tipo `char` di Rust ha quattro byte di dimensione e
+rappresenta un valore scalare Unicode, il che significa che può rappresentare molto più che
+solo ASCII. Lettere accentate; caratteri cinesi, giapponesi e coreani; emoji;
+e gli spazi di larghezza zero sono tutti validi valori `char` in Rust. I valori scalari Unicode
+vanno da `U+0000` a `U+D7FF` e da `U+E000` a `U+10FFFF` inclusi.
+Tuttavia, un "carattere" non è realmente un concetto in Unicode, quindi la tua
+intuizione umana per quello che è un "carattere" potrebbe non coincidere con quello che è un `char` in
+Rust. Discuteremo di questo argomento in dettaglio in [“Storing UTF-8 Encoded Text with
+Strings”][strings]<!-- ignore --> nel capitolo 8.
 
-### Compound Types
+### Tipi Composti
 
-*Compound types* can group multiple values into one type. Rust has two
-primitive compound types: tuples and arrays.
+I *tipi composti* possono raggruppare più valori in un solo tipo. Rust ha due
+tipi composti primitivi: le tuple e gli array.
 
-#### The Tuple Type
+#### Il Tipo Tuple
 
-A *tuple* is a general way of grouping together a number of values with a
-variety of types into one compound type. Tuples have a fixed length: once
-declared, they cannot grow or shrink in size.
+Una *tupla* è un modo generale di raggruppare un numero di valori con una
+varietà di tipi in un singolo tipo composto. Le tuple hanno una lunghezza fissa: una volta
+dichiarate, non possono crescere né diminuire di dimensione.
 
-We create a tuple by writing a comma-separated list of values inside
-parentheses. Each position in the tuple has a type, and the types of the
-different values in the tuple don’t have to be the same. We’ve added optional
-type annotations in this example:
+Creiamo una tupla scrivendo un elenco di valori separati da virgole all'interno
+delle parentesi. Ogni posizione nella tupla ha un tipo, e i tipi dei
+diversi valori nella tupla non devono essere uguali. Abbiamo aggiunto opzionali
+annotazioni di tipo in questo esempio:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-10-tuples/src/main.rs}}
 ```
 
-The variable `tup` binds to the entire tuple because a tuple is considered a
-single compound element. To get the individual values out of a tuple, we can
-use pattern matching to destructure a tuple value, like this:
+La variabile `tup` si riferisce all'intera tupla perché una tupla è considerata un
+singolo elemento composto. Per ottenere i valori individuali da una tupla, possiamo
+utilizzare il pattern matching per destrutturare un valore della tupla, come in questo caso:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-11-destructuring-tuples/src/main.rs}}
 ```
 
-This program first creates a tuple and binds it to the variable `tup`. It then
-uses a pattern with `let` to take `tup` and turn it into three separate
-variables, `x`, `y`, and `z`. This is called *destructuring* because it breaks
-the single tuple into three parts. Finally, the program prints the value of
-`y`, which is `6.4`.
+Questo programma crea prima una tupla e la collega alla variabile `tup`. Quindi
+usa un pattern con `let` per prendere `tup` e trasformarlo in tre separate
+variabili, `x`, `y`, e `z`. Questo è chiamato *destrutturazione* perché rompe
+la singola tupla in tre parti. Infine, il programma stampa il valore di
+`y`, che è `6.4`.
 
-We can also access a tuple element directly by using a period (`.`) followed by
-the index of the value we want to access. For example:
+Possiamo anche accedere direttamente a un elemento di una tupla utilizzando un punto (`.`) seguito da
+l'indice del valore che vogliamo accedere. Ad esempio:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-12-tuple-indexing/src/main.rs}}
 ```
 
-This program creates the tuple `x` and then accesses each element of the tuple
-using their respective indices. As with most programming languages, the first
-index in a tuple is 0.
+Questo programma crea la tupla `x` e poi accede a ciascun elemento della tupla
+utilizzando i loro rispettivi indici. Come nella maggior parte dei linguaggi di programmazione, il primo
+indice in una tupla è 0.
 
-The tuple without any values has a special name, *unit*. This value and its
-corresponding type are both written `()` and represent an empty value or an
-empty return type. Expressions implicitly return the unit value if they don’t
-return any other value.
+La tupla senza alcun valore ha un nome speciale, *unit*. Questo valore e il suo
+tipo corrispondente sono entrambi scritti `()` e rappresentano un valore vuoto o un
+tipo di ritorno vuoto. Le espressioni restituiscono implicitamente il valore unit se non restituiscono nessun altro valore.
 
-#### The Array Type
+#### Il Tipo Array
 
-Another way to have a collection of multiple values is with an *array*. Unlike
-a tuple, every element of an array must have the same type. Unlike arrays in
-some other languages, arrays in Rust have a fixed length.
+Un altro modo per avere una raccolta di più valori è con un *array*. A differenza
+di una tupla, ogni elemento di un array deve avere lo stesso tipo. A differenza degli array in
+alcuni altri linguaggi, gli array in Rust hanno una lunghezza fissa.
 
-We write the values in an array as a comma-separated list inside square
-brackets:
+Scriviamo i valori in un array come un elenco separato da virgole all'interno di parentesi quadre:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-13-arrays/src/main.rs}}
 ```
 
-Arrays are useful when you want your data allocated on the stack rather than
-the heap (we will discuss the stack and the heap more in [Chapter
-4][stack-and-heap]<!-- ignore -->) or when you want to ensure you always have a
-fixed number of elements. An array isn’t as flexible as the vector type,
-though. A *vector* is a similar collection type provided by the standard
-library that *is* allowed to grow or shrink in size. If you’re unsure whether
-to use an array or a vector, chances are you should use a vector. [Chapter
-8][vectors]<!-- ignore --> discusses vectors in more detail.
+Gli array sono utili quando si vuole che i dati siano allocati nello stack piuttosto che
+nell'heap (discuteremo di più lo stack e l'heap in [Capitolo
+4][stack-and-heap]<!-- ignore -->) o quando si vuole assicurarsi di avere sempre un
+numero fisso di elementi. Un array non è flessibile come il tipo vettoriale,
+tuttavia. Un *vettore* è un tipo di raccolta simile fornita dalla libreria standard che *può* essere permesso di crescere o diminuire di dimensione. Se non sei sicuro se
+utilizzare un array o un vettore, molto probabilmente dovresti utilizzare un vettore. [Capitolo
+8][vectors]<!-- ignore --> tratta in più dettaglio i vettori.
 
-However, arrays are more useful when you know the number of elements will not
-need to change. For example, if you were using the names of the month in a
-program, you would probably use an array rather than a vector because you know
-it will always contain 12 elements:
+Tuttavia, gli array sono più utili quando sai che il numero di elementi non avrà bisogno di cambiare. Ad esempio, se stessi utilizzando i nomi dei mesi in un
+programma, probabilmente useresti un array piuttosto che un vettore perché sai
+che conterrà sempre 12 elementi:
 
 ```rust
 let months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 ```
 
-You write an array’s type using square brackets with the type of each element,
-a semicolon, and then the number of elements in the array, like so:
+Si scrive il tipo di un array utilizzando parentesi quadre con il tipo di ogni elemento,
+un punto e virgola, e poi il numero di elementi nell'array, così:
 
 ```rust
 let a: [i32; 5] = [1, 2, 3, 4, 5];
 ```
 
-Here, `i32` is the type of each element. After the semicolon, the number `5`
-indicates the array contains five elements.
+Qui, `i32` è il tipo di ogni elemento. Dopo il punto e virgola, il numero `5`
+indica che l'array contiene cinque elementi.
 
-You can also initialize an array to contain the same value for each element by
-specifying the initial value, followed by a semicolon, and then the length of
-the array in square brackets, as shown here:
+Puoi anche inizializzare un array per contenere lo stesso valore per ogni elemento specificando il valore iniziale, seguito da un punto e virgola, e poi la lunghezza dell'array tra parentesi quadre, come mostrato qui:
 
 ```rust
 let a = [3; 5];
 ```
 
-The array named `a` will contain `5` elements that will all be set to the value
-`3` initially. This is the same as writing `let a = [3, 3, 3, 3, 3];` but in a
-more concise way.
+L'array chiamato `a` conterrà `5` elementi che saranno impostati inizialmente al valore
+`3`. Questo è lo stesso di scrivere `let a = [3, 3, 3, 3, 3];` ma in un
+modo più conciso.
 
-##### Accessing Array Elements
+##### Accesso agli Elementi dell'Array
 
-An array is a single chunk of memory of a known, fixed size that can be
-allocated on the stack. You can access elements of an array using indexing,
-like this:
+Un array è un singolo blocco di memoria di dimensione nota e fissa che può essere
+allocato nello stack. Puoi accedere agli elementi di un array utilizzando l'indicizzazione,
+come questo:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-14-array-indexing/src/main.rs}}
 ```
 
-In this example, the variable named `first` will get the value `1` because that
-is the value at index `[0]` in the array. The variable named `second` will get
-the value `2` from index `[1]` in the array.
+In questo esempio, la variabile chiamata `first` otterrà il valore `1` perché quello
+è il valore all'indice `[0]` nell'array. La variabile chiamata `second` otterrà il valore `2` dall'indice `[1]` nell'array.
 
-##### Invalid Array Element Access
+##### Accesso a un Elemento dell'Array Non Valido
 
-Let’s see what happens if you try to access an element of an array that is past
-the end of the array. Say you run this code, similar to the guessing game in
-Chapter 2, to get an array index from the user:
+Vediamo cosa succede se si prova ad accedere a un elemento di un array che è oltre
+la fine dell'array. Diciamo che esegui questo codice, simile al gioco di indovinare nel
+Capitolo 2, per ottenere un indice dell'array dall'utente:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome_file: src/main.rs</span>
 
 ```rust,ignore,panics
 {{#rustdoc_include ../listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access/src/main.rs}}
 ```
 
-This code compiles successfully. If you run this code using `cargo run` and
-enter `0`, `1`, `2`, `3`, or `4`, the program will print out the corresponding
-value at that index in the array. If you instead enter a number past the end of
-the array, such as `10`, you’ll see output like this:
+Questo codice viene compilato con successo. Se esegui questo codice usando `cargo run` e
+inserisci `0`, `1`, `2`, `3`, o `4`, il programma stamperà il corrispondente
+valore a quell'indice nell'array. Se invece inserisci un numero oltre la fine dell'array, come `10`, vedrai un output come questo:
 
 <!-- manual-regeneration
 cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
 cargo run
 10
 -->
-
 ```console
-thread 'main' panicked at 'index out of bounds: the len is 5 but the index is 10', src/main.rs:19:19
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+thread 'main' ha avuto un panico a 'indice fuori dai limiti: la len è 5 ma l'indice è 10', src/main.rs:19:19
+nota: esegui con la variabile di ambiente `RUST_BACKTRACE=1` per visualizzare una traccia inversa
 ```
 
-The program resulted in a *runtime* error at the point of using an invalid
-value in the indexing operation. The program exited with an error message and
-didn’t execute the final `println!` statement. When you attempt to access an
-element using indexing, Rust will check that the index you’ve specified is less
-than the array length. If the index is greater than or equal to the length,
-Rust will panic. This check has to happen at runtime, especially in this case,
-because the compiler can’t possibly know what value a user will enter when they
-run the code later.
+Il programma ha generato un errore *runtime* nel momento in cui ha utilizzato un
+valore non valido nell'operazione di indicizzazione. Il programma è uscito con un messaggio di errore e
+non ha eseguito l'ultima istruzione `println!`. Quando tenti di accedere a un
+elemento utilizzando l'indicizzazione, Rust verificherà che l'indice che hai specificato sia minore
+della lunghezza dell'array. Se l'indice è maggiore o uguale alla lunghezza,
+Rust avrà un panico. Questo controllo deve avvenire a runtime, soprattutto in questo caso,
+perché il compilatore non può possibilmente sapere quale valore un utente inserirà quando
+eseguirà il codice in seguito.
 
-This is an example of Rust’s memory safety principles in action. In many
-low-level languages, this kind of check is not done, and when you provide an
-incorrect index, invalid memory can be accessed. Rust protects you against this
-kind of error by immediately exiting instead of allowing the memory access and
-continuing. Chapter 9 discusses more of Rust’s error handling and how you can
-write readable, safe code that neither panics nor allows invalid memory access.
+Questo è un esempio dei principi di sicurezza della memoria di Rust in azione. In molti
+linguaggi a basso livello, questo tipo di controllo non viene effettuato, e quando fornisci un
+indice incorretto, può essere accessa la memoria non valida. Rust ti protegge da questo
+tipo di errore uscendo immediatamente invece di permettere l'accesso alla memoria e
+continuare. Il Capitolo 9 discute di più sul gestione degli errori in Rust e su come puoi
+scrivere codice leggibile e sicuro che né panica né permette l'accesso alla memoria non valida.
 
-[comparing-the-guess-to-the-secret-number]:
-ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number
-[twos-complement]: https://en.wikipedia.org/wiki/Two%27s_complement
-[control-flow]: ch03-05-control-flow.html#control-flow
-[strings]: ch08-02-strings.html#storing-utf-8-encoded-text-with-strings
-[stack-and-heap]: ch04-01-what-is-ownership.html#the-stack-and-the-heap
-[vectors]: ch08-01-vectors.html
-[unrecoverable-errors-with-panic]: ch09-01-unrecoverable-errors-with-panic.html
-[appendix_b]: appendix-02-operators.md
+[confrontando-la-supposizione-con-il-numero-segreto]:
+ch02-00-guessing-game-tutorial.html#confrontando-la-supposizione-con-il-numero-segreto
+[complemento-a-due]: https://it.wikipedia.org/wiki/Complemento_a_due
+[controllo-del-flusso]: ch03-05-control-flow.html#controllo-del-flusso
+[stringhe]: ch08-02-strings.html#stoccaggio-del-testo-codificato-utf-8-con-le-stringhe
+[stack-e-heap]: ch04-01-what-is-ownership.html#lo-stack-e-l'heap
+[vettori]: ch08-01-vectors.html
+[errori-irrecuperabili-con-panic]: ch09-01-unrecoverable-errors-with-panic.html
+[appendice_b]: appendix-02-operators.md
+
