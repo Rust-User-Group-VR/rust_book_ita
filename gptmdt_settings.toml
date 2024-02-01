@@ -1,0 +1,38 @@
+# We use the GPT-4 model in order to be able to reliably use the ignorelist below
+gptmodel = "gpt-4"
+
+# The default prompt with an additional clause to avoid getting the source code (or examples' output) translated
+sysprompt = "You shall translate the following markdown to Italian, preserving the existing formatting and avoiding any other output. Please refrain from translating anything inside a Markdown source code box."
+
+# List of domain-specific terms that GPT shouldn't translate
+ignorelist = [
+  "Ownership",
+  "Borrowing",
+  "Lifetime",
+  "Trait",
+  "Struct",
+  "Enum",
+  "Match",
+  "Option",
+  "Result",
+  "Crate",
+  "Module",
+  "Cargo",
+  "Slice",
+  "Iterator",
+  "Closure",
+  "Mutable",
+  "Immutable",
+  "Reference",
+  "Borrow Checker",
+  "Concurrency",
+  "Mutex",
+  "Atomic",
+  "Async",
+  "Smart Pointer"
+]
+
+# PLEASE NOTE: The OpenAI API key isn't saved here for obvious reasons and you should
+#              never commit this file in case you edit it into.
+#              To pass the API key to the program please run it with the following
+#              syntax: "GPTMDT_OPENAITOKEN=... gpt_md_translator ..."
