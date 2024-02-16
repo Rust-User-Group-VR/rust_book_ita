@@ -1,46 +1,21 @@
-## Packages and Crates
+## Pacchetti e Crates
 
-The first parts of the module system we’ll cover are packages and crates.
+Le prime parti del sistema dei moduli che copriremo sono i pacchetti e le crates.
 
-A *crate* is the smallest amount of code that the Rust compiler considers at a
-time. Even if you run `rustc` rather than `cargo` and pass a single source code
-file (as we did all the way back in the “Writing and Running a Rust Program”
-section of Chapter 1), the compiler considers that file to be a crate. Crates
-can contain modules, and the modules may be defined in other files that get
-compiled with the crate, as we’ll see in the coming sections.
+Una *crate* è la più piccola quantità di codice che il compilatore Rust considera alla volta. Anche se esegui `rustc` piuttosto che `cargo` e passi un singolo file di codice sorgente (come abbiamo fatto all'inizio nel capitolo "Scrivere ed Eseguire un Programma Rust" del Capitolo 1), il compilatore considera quel file come una crate. Le crates possono contenere moduli, e i moduli possono essere definiti in altri file che vengono compilati con la crate, come vedremo nelle prossime sezioni.
 
-A crate can come in one of two forms: a binary crate or a library crate.
-*Binary crates* are programs you can compile to an executable that you can run,
-such as a command-line program or a server. Each must have a function called
-`main` that defines what happens when the executable runs. All the crates we’ve
-created so far have been binary crates.
+Una crate può presentarsi in due forme: una crate binaria o una crate di libreria.
+Le *crates binarie* sono programmi che puoi compilare in un eseguibile che puoi eseguire, come un programma da riga di comando o un server. Ognuna deve avere una funzione chiamata `main` che definisce cosa succede quando l'eseguibile viene eseguito. Tutte le crates che abbiamo creato finora sono state crates binarie.
 
-*Library crates* don’t have a `main` function, and they don’t compile to an
-executable. Instead, they define functionality intended to be shared with
-multiple projects. For example, the `rand` crate we used in [Chapter
-2][rand]<!-- ignore --> provides functionality that generates random numbers.
-Most of the time when Rustaceans say “crate”, they mean library crate, and they
-use “crate” interchangeably with the general programming concept of a “library".
+Le *crates di libreria* non hanno una funzione `main`, e non vengono compilate in un eseguibile. Invece, definiscono funzionalità destinate a essere condivise con più progetti. Ad esempio, la crate `rand` che abbiamo usato nel [Capitolo 2][rand]<!-- ignore --> fornisce funzionalità che genera numeri casuali. La maggior parte del tempo quando i Rustaceans dicono “crate”, intendono la crate di libreria, e usano “crate” in modo intercambiabile con il concetto di programmazione generale di una “libreria".
 
-The *crate root* is a source file that the Rust compiler starts from and makes
-up the root module of your crate (we’ll explain modules in depth in the
-[“Defining Modules to Control Scope and Privacy”][modules]<!-- ignore -->
-section).
+La *radice della crate* è un file sorgente da cui il compilatore Rust inizia e costituisce il modulo radice della tua crate (spiegheremo i moduli in profondità nella sezione [“Definire Moduli per Controllare lo Scope e la Privacy”][modules]<!-- ignore -->).
 
-A *package* is a bundle of one or more crates that provides a set of
-functionality. A package contains a *Cargo.toml* file that describes how to
-build those crates. Cargo is actually a package that contains the binary crate
-for the command-line tool you’ve been using to build your code. The Cargo
-package also contains a library crate that the binary crate depends on. Other
-projects can depend on the Cargo library crate to use the same logic the Cargo
-command-line tool uses.
+Un *pacchetto* è un insieme di una o più crates che fornisce un insieme di funzionalità. Un pacchetto contiene un file *Cargo.toml* che descrive come costruire quelle crates. Cargo è in realtà un pacchetto che contiene la crate binaria per lo strumento da riga di comando che hai usato per costruire il tuo codice. Il pacchetto Cargo contiene anche una crate di libreria su cui dipende la crate binaria. Altri progetti possono dipendere dalla crate di libreria di Cargo per utilizzare la stessa logica che utilizza lo strumento da riga di comando di Cargo.
 
-A package can contain as many binary crates as you like, but at most only one
-library crate. A package must contain at least one crate, whether that’s a
-library or binary crate.
+Un pacchetto può contenere quante più crates binarie vuoi, ma al massimo solo una crate di libreria. Un pacchetto deve contenere almeno una crate, che sia una crate di libreria o binaria.
 
-Let’s walk through what happens when we create a package. First, we enter the
-command `cargo new`:
+Facciamo un giro su cosa succede quando creiamo un pacchetto. Per prima cosa, inseriamo il comando `cargo new`:
 
 ```console
 $ cargo new my-project
@@ -52,21 +27,9 @@ $ ls my-project/src
 main.rs
 ```
 
-After we run `cargo new`, we use `ls` to see what Cargo creates. In the project
-directory, there’s a *Cargo.toml* file, giving us a package. There’s also a
-*src* directory that contains *main.rs*. Open *Cargo.toml* in your text editor,
-and note there’s no mention of *src/main.rs*. Cargo follows a convention that
-*src/main.rs* is the crate root of a binary crate with the same name as the
-package. Likewise, Cargo knows that if the package directory contains
-*src/lib.rs*, the package contains a library crate with the same name as the
-package, and *src/lib.rs* is its crate root. Cargo passes the crate root files
-to `rustc` to build the library or binary.
+Dopo aver eseguito `cargo new`, usiamo `ls` per vedere cosa crea Cargo. Nella directory del progetto, c'è un file *Cargo.toml*, che ci dà un pacchetto. C'è anche una directory *src* che contiene *main.rs*. Apri *Cargo.toml* nel tuo editor di testo, e noterai che non c'è alcuna menzione di *src/main.rs*. Cargo segue una convenzione secondo la quale *src/main.rs* è la radice della crate di una crate binaria con lo stesso nome del pacchetto. Allo stesso modo, Cargo sa che se la directory del pacchetto contiene *src/lib.rs*, il pacchetto contiene una crate di libreria con lo stesso nome del pacchetto, e *src/lib.rs* è la sua radice della crate. Cargo passa i file della radice della crate a `rustc` per costruire la libreria o il binario.
 
-Here, we have a package that only contains *src/main.rs*, meaning it only
-contains a binary crate named `my-project`. If a package contains *src/main.rs*
-and *src/lib.rs*, it has two crates: a binary and a library, both with the same
-name as the package. A package can have multiple binary crates by placing files
-in the *src/bin* directory: each file will be a separate binary crate.
+Qui, abbiamo un pacchetto che contiene solo *src/main.rs*, il che significa che contiene solo una crate binaria chiamata `my-project`. Se un pacchetto contiene *src/main.rs* e *src/lib.rs*, ha due crates: una binaria e una di libreria, entrambe con lo stesso nome del pacchetto. Un pacchetto può avere più crates binarie posizionando i file nella directory *src/bin*: ogni file sarà una crate binaria separata.
 
 [modules]: ch07-02-defining-modules-to-control-scope-and-privacy.html
 [rand]: ch02-00-guessing-game-tutorial.html#generating-a-random-number
