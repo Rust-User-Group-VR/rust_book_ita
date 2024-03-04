@@ -1,4 +1,4 @@
-## Tipi di dati generici
+## Tipi di dati generici -
 
 Utilizziamo i generici per creare definizioni per elementi come firme di funzioni o
 structs, che possiamo quindi utilizzare con molti diversi tipi di dati concreti. Vediamo
