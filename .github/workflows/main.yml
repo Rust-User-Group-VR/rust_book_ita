@@ -1,4 +1,4 @@
-name: "Rust Book ITA Build"
+name: "Rust Book ITA Build and Deploy"
 on:
   pull_request:
   push:
@@ -11,10 +11,10 @@ jobs:
       - name: Setup Nix
         uses: nixbuild/nix-quick-install-action@v26
       - name: Restore and cache Nix store
-        uses: nix-community/cache-nix-action@v4
+        uses: nix-community/cache-nix-action@v5
         with:
-          key: cache-${{ matrix.os }}-${{ hashFiles('**/*.nix') }}-${{ hashFiles('**/*.lock', '**/Cargo.toml') }}
-          restore-keys: |
+          primary-key: cache-${{ matrix.os }}-${{ hashFiles('**/*.nix') }}-${{ hashFiles('**/*.lock', '**/Cargo.toml') }}
+          restore-prefixes-first-match: |
             cache-${{ matrix.os }}-${{ hashFiles('**/*.nix') }}
             cache-${{ matrix.os }}
       - name: Build the Book
@@ -22,9 +22,25 @@ jobs:
       - name: Get the Book Artifacts
         run: mkdir -p rust_book_ita && cp -r result/* rust_book_ita/
       - name: Upload the Book Artifacts
-        uses: actions/upload-artifact@v3
-        continue-on-error: true
+        uses: actions/upload-artifact@v4
         with:
           name: rust_book_ita
           path: rust_book_ita/
           retention-days: 30
+      - name: Upload the Book for GH Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: rust_book_ita/
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Book to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
