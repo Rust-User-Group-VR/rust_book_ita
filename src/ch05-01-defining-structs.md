@@ -1,17 +1,18 @@
-## Definizione e Istanziazione di Structs
+## Definizione e istanziazione di Struct
 
-Le Structs sono simili alle tuple, discusse nella sezione [“Il Tipo Tuple”][tuples]<!--
-ignore -->, in quanto entrambe contengono più valori correlati. Come le tuple, le
-parti di una struct possono essere di tipi diversi. A differenza delle tuple, in una struct
-dovrai nominare ogni pezzo di dati in modo che sia chiaro cosa significano i valori. Aggiungere questi nomi
-significa che le structs sono più flessibili delle tuple: non devi contare
-sull'ordine dei dati per specificare o accedere ai valori di un'istanza.
+Le Struct sono simili ai tuple, discussi nella sezione [“Il Tipo Tuple”][tuples]<!--
+ignore -->, in quanto entrambi contengono più valori correlati. Come nei tuple,
+i componenti di una struct possono essere di tipi diversi. A differenza dei tuple,
+in una struct si assegna un nome a ciascun elemento di dati, quindi è chiaro cosa
+significano i valori. L'aggiunta di questi nomi rende le struct più flessibili dei 
+tuple: non è necessario fare affidamento sull'ordine dei dati per specificare o 
+accedere ai valori di un'istanza.
 
-Per definire una struct, inseriamo la parola chiave `struct` e diamo un nome all'intera struct. Un
-il nome della struct dovrebbe descrivere l'importanza dei pezzi di dati che
-vengono raggruppati insieme. Quindi, tra parentesi graffe, definiamo i nomi e i tipi dei
-pezzi di dati, che chiamiamo *campi*. Ad esempio, la Listing 5-1 mostra una
-struct che memorizza le informazioni su un account utente.
+Per definire una struct, inseriamo la parola chiave `struct` e nominiamo l'intera 
+struct. Il nome di una struct dovrebbe descrivere l'importanza dei dati che vengono 
+raggruppati. Quindi, tra parentesi graffe, definiamo i nomi e i tipi dei dati, che 
+chiamiamo *campi*. Ad esempio, Elenco 5-1 mostra una struct che memorizza informazioni 
+su un account utente.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -19,17 +20,16 @@ struct che memorizza le informazioni su un account utente.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-01/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-1: Definizione di una struct `User`</span>
+<span class="caption">Elenco 5-1: Una definizione di struct `User`</span>
 
-Per utilizzare una struct dopo che l'abbiamo definita, creiamo un *istanza* di quella struct
-specificando valori concreti per ciascuno dei campi. Creiamo un'istanza
-stabilisco il nome della struct e poi aggiungo parentesi graffe contenenti *chiave:
-coppie di valori*, dove le chiavi sono i nomi dei campi e i valori sono il
-dati che vogliamo memorizzare in quei campi. Non dobbiamo specificare i campi in
-lo stesso ordine in cui li abbiamo dichiarati nella struct. In altre parole, il
-la definizione della struct è come un modello generale per il tipo, e le istanze riempiono
-in quel modello con dati particolari per creare valori del tipo. Per
-esempio, possiamo dichiarare un utente particolare come mostrato nella Listing 5-2.
+Per utilizzare una struct dopo averla definita, creiamo un' *istanza* di quella struct
+specificando valori concreti per ciascuno dei campi. Creiamo un'istanza dichiarando 
+il nome della struct e poi aggiungendo parentesi graffe contenenti coppie *chiave: valore*,  
+dove le chiavi sono i nomi dei campi e i valori sono i dati che vogliamo memorizzare in quei 
+campi. Non è necessario specificare i campi nello stesso ordine in cui sono stati dichiarati 
+nella struct. In altre parole, la definizione di struct è come un modello generale per il tipo, 
+e le istanze compilano quel modello con dati particolari per creare valori del tipo. Ad esempio, 
+possiamo dichiarare un utente specifico come mostrato nell'Elenco 5-2.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -37,14 +37,12 @@ esempio, possiamo dichiarare un utente particolare come mostrato nella Listing 5
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-02/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-2: Creazione di un'istanza della struct `User`
-</span>
+<span class="caption">Elenco 5-2: Creazione di un'istanza della struct `User`</span>
 
-Per ottenere un valore specifico da una struct, utilizziamo la notazione del punto. Ad esempio, per
-accedere all'indirizzo email di questo utente, utilizziamo `user1.email`. Se l'istanza è
-mutabile, possiamo cambiare un valore utilizzando la notazione del punto e assegnando a un
-campo particolare. La Listing 5-3 mostra come cambiare il valore nel campo `email`
-di un'istanza mutabile `User`.
+Per ottenere un valore specifico da una struct, utilizziamo la notazione a punti. Ad esempio, 
+per accedere all'indirizzo email di questo utente, usiamo `user1.email`. Se l'istanza è mutable, 
+possiamo cambiare un valore utilizzando la notazione a punti e assegnando a un campo particolare. 
+L'Elenco 5-3 mostra come cambiare il valore nel campo `email` di un'istanza mutable di `User`.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -52,17 +50,16 @@ di un'istanza mutabile `User`.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-03/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-3: Modifica del valore nel campo `email` di un
-istanza `User`</span>
+<span class="caption">Elenco 5-3: Modifica del valore nel campo `email` di un'istanza di `User`</span>
 
-Nota che l'intera istanza deve essere mutabile; Rust non ci permette di contrassegnare
-solo certi campi come mutabili. Come con qualsiasi espressione, possiamo costruire un nuovo
-istanza della struct come ultima espressione nel corpo della funzione per
-ritornare implicitamente quella nuova istanza.
+Nota che l'intera istanza deve essere mutable; Rust non permette di contrassegnare solo alcuni 
+campi come mutable. Come con qualsiasi espressione, possiamo costruire una nuova istanza della 
+struct come ultima espressione nel corpo della funzione per restituire implicitamente quella 
+nuova istanza.
 
-La Listing 5-4 mostra una funzione `build_user` che restituisce un'istanza `User` con
-l'email e il nome utente dati. Il campo `active` riceve il valore `true`, e
-il `sign_in_count` riceve un valore di `1`.
+L'Elenco 5-4 mostra una funzione `build_user` che restituisce un'istanza `User` con l'email e 
+il nome utente forniti. Il campo `active` ottiene il valore `true`, e il campo `sign_in_count` 
+ottiene un valore di `1`.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -70,23 +67,23 @@ il `sign_in_count` riceve un valore di `1`.
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-04/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-4: Una funzione `build_user` che prende un'email
-e un nome utente e restituisce un'istanza `User`</span>
+<span class="caption">Elenco 5-4: Una funzione `build_user` che prende un'email e un nome utente
+e restituisce un'istanza di `User`</span>
 
-Ha senso dare ai parametri della funzione lo stesso nome dei campi della struct
-ma dover ripetere i nomi dei campi `email` e `username` e
-le variabili è un po' noioso. Se la struct avesse più campi, ripetere ogni nome
-sarebbe ancora più fastidioso. Fortunatamente, c'è una comoda scorciatoia!
+Ha senso chiamare i parametri della funzione con lo stesso nome dei campi della struct, ma 
+dover ripetere i nomi dei campi `email` e `username` e le variabili è un po' tedioso. Se 
+la struct avesse più campi, ripetere ogni nome diventerebbe ancora più fastidioso. Per fortuna, 
+esiste una scorciatoia comoda!
 
-<!-- Vecchia intestazione. Non rimuovere o i link potrebbero rompersi. -->
+<!-- Vecchio titolo. Non rimuoverlo o i link potrebbero rompersi. -->
 <a id="using-the-field-init-shorthand-when-variables-and-fields-have-the-same-name"></a>
 
-### Utilizzo della scorciatoia di inizializzazione del campo
+### Utilizzo della scorciatoia per l'inizializzazione dei campi
 
-Poiché i nomi dei parametri e i nomi dei campi della struct sono esattamente gli stessi in
-Listing 5-4, possiamo usare la sintassi della *scorciatoia di inizializzazione del campo* per riscrivere
-`build_user` in modo che si comporti esattamente allo stesso modo ma non ha la ripetizione di
-`username` e `email`, come mostrato nella Listing 5-5.
+Poiché i nomi dei parametri e i nomi dei campi della struct sono esattamente uguali in
+l'Elenco 5-4, possiamo usare la sintassi *scorciatoia per l'inizializzazione dei campi* per
+riscrivere `build_user` in modo che si comporti esattamente allo stesso modo ma senza la ripetizione
+di `username` e `email`, come mostrato nell'Elenco 5-5.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -94,24 +91,24 @@ Listing 5-4, possiamo usare la sintassi della *scorciatoia di inizializzazione d
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-05/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-5: Una funzione `build_user` che utilizza la scorciatoia di inizializzazione del campo
-perché i parametri `username` ed `email` hanno lo stesso nome dei campi della struct</span>
+<span class="caption">Elenco 5-5: Una funzione `build_user` che utilizza la scorciatoia
+per l'inizializzazione dei campi perché i parametri `username` e `email`
+hanno lo stesso nome dei campi della struct</span>
 
-Qui, stiamo creando una nuova istanza della struct `User`, che ha un campo
-chiamato `email`. Vogliamo impostare il valore del campo `email` al valore nel
-parametro `email` della funzione `build_user`. Poiché il campo `email` e il
-il parametro `email` hanno lo stesso nome, dobbiamo solo scrivere `email` piuttosto
-che `email: email`.
+Qui, stiamo creando una nuova istanza della struct `User`, che ha un campo denominato `email`.
+Vogliamo impostare il valore del campo `email` al valore del parametro `email` della funzione
+`build_user`. Poiché il campo `email` e il parametro `email` hanno lo stesso nome, dobbiamo
+scrivere solo `email` invece di `email: email`.
 
-### Creazione di Istanze da Altre Istanze con la Sintassi di Aggiornamento Struct
+### Creazione di istanze da altre istanze con la sintassi di aggiornamento delle struct
 
-È spesso utile creare una nuova istanza di una struct che include la maggior parte di
-i valori da un'altra istanza, ma cambia alcuni. Puoi farlo usando
-sintassi di aggiornamento della struct*.
+È spesso utile creare una nuova istanza di una struct che include la maggior parte dei valori
+da un'altra istanza, ma ne cambia alcuni. È possibile farlo utilizzando la *sintassi di aggiornamento
+delle struct*.
 
-Prima, nella Listing 5-6 mostriamo come creare una nuova istanza di `User` in `user2`
+Per prima cosa, nell'Elenco 5-6 mostriamo come creare una nuova istanza `User` in `user2`
 regolarmente, senza la sintassi di aggiornamento. Impostiamo un nuovo valore per `email` ma
-altrimenti utilizziamo gli stessi valori da `user1` che abbiamo creato nella Listing 5-2.
+usiamo gli stessi valori di `user1` che abbiamo creato nell'Elenco 5-2.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -119,12 +116,12 @@ altrimenti utilizziamo gli stessi valori da `user1` che abbiamo creato nella Lis
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-06/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-6: Creazione di una nuova istanza `User` utilizzando uno dei
-valori da `user1`</span>
+<span class="caption">Elenco 5-6: Creazione di una nuova istanza `User` utilizzando tutti i valori
+tranne uno da `user1`</span>
 
-Usando la sintassi di aggiornamento della struct, possiamo ottenere lo stesso effetto con meno codice, come
-mostrato nella Listing 5-7. La sintassi `..` specifica che i campi rimanenti non
-esplicitamente impostati dovrebbero avere lo stesso valore dei campi nell'istanza data.
+Utilizzando la sintassi di aggiornamento delle struct, possiamo ottenere lo stesso effetto con
+meno codice, come mostrato nell'Elenco 5-7. La sintassi `..` specifica che i campi rimanenti
+non impostati esplicitamente devono avere lo stesso valore dei campi nell'istanza data.
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -132,40 +129,37 @@ esplicitamente impostati dovrebbero avere lo stesso valore dei campi nell'istanz
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/listing-05-07/src/main.rs:here}}
 ```
 
-<span class="caption">Listing 5-7: Utilizzo della sintassi di aggiornamento della struct per impostare un nuovo
-valore `email` per un'istanza `User` ma per utilizzare il resto dei valori da
-`user1`</span>
+<span class="caption">Elenco 5-7: Utilizzo della sintassi di aggiornamento delle struct per impostare un nuovo
+valore `email` per un'istanza `User` ma per utilizzare il resto dei valori da `user1`</span>
 
-Il codice nella Listing 5-7 crea anche un'istanza in `user2` che ha un
-valore diverso per `email` ma ha gli stessi valori per i campi `username`,
-`active`, e `sign_in_count` da `user1`. Il `..user1` deve venire per ultimo
-per specificare che tutti i campi rimanenti dovrebbero ricevere i loro valori dal
-campi corrispondenti in `user1`, ma possiamo scegliere di specificare i valori per come
-molti campi vogliamo in qualsiasi ordine, indipendentemente dall'ordine dei campi nel
-definizione della struct.
+Il codice nell'Elenco 5-7 crea anche un'istanza in `user2` che ha un valore diverso per `email`
+ma ha gli stessi valori per i campi `username`, `active` e `sign_in_count` da `user1`. Il `..user1`
+deve venire per ultimo per specificare che i campi rimanenti dovrebbero ottenere i loro valori dai
+campi corrispondenti in `user1`, ma possiamo scegliere di specificare valori per quanti campi
+vogliamo in qualsiasi ordine, indipendentemente dall'ordine dei campi nella definizione della struct.
 
-Nota che la sintassi di aggiornamento struct utilizza `=` come un'assegnazione; questo perché
-sposta i dati, proprio come abbiamo visto nella sezione [“Variabili e dati che interagiscono con
-Move”][move]<!-- ignore -->. In questo esempio, non possiamo più utilizzare
-`user1` come un tutto dopo aver creato `user2` perché la `String` nel
-campo `username` di `user1` è stata spostata in `user2`. Se avessimo dato a `user2` nuove
-valori `String` sia per `email` che per `username`, e quindi avessimo utilizzato solo i
-valori `active` e `sign_in_count` da `user1`, allora `user1` sarebbe ancora
-valido dopo aver creato `user2`. Sia `active` che `sign_in_count` sono tipi che
-implementano il trait `Copy`, quindi il comportamento che abbiamo discusso nella sezione [“Solo dati Stack:
-Copy”][copy]<!-- ignore --> si applicherebbe.
+Nota che la sintassi di aggiornamento delle struct utilizza `=` come un'assegnazione; questo 
+perché sposta i dati, proprio come abbiamo visto nella sezione [“Variabili e Dati che Interagiscono
+con il Movimento”][move]<!-- ignore -->. In questo esempio, non possiamo più utilizzare `user1` come
+un tutto dopo aver creato `user2` perché il `String` nel campo `username` di `user1` è stato 
+spostato in `user2`. Se avessimo dato a `user2` nuovi valori `String` sia per `email` che per 
+`username`, e quindi avessimo utilizzato solo i valori `active` e `sign_in_count` da `user1`, 
+allora `user1` sarebbe ancora valido dopo aver creato `user2`. Sia `active` che `sign_in_count`
+sono tipi che implementano il trait `Copy`, quindi il comportamento discusso nella sezione 
+[“Dati Solo nel Pila: Copy”][copy]<!-- ignore --> si applicherebbe.
 
-### Utilizzo di Struct Tuple Senza Campi Nominati per Creare Diversi Tipi
+### Utilizzo di Struct a Tupla senza Campi Nominati per Creare Tipi Diversi
 
-Rust supporta anche struct che assomigliano a tuple, chiamate *struct di tuple*.
-Le struct di tuple hanno il significato aggiunto che il nome della struct fornisce, ma non hanno
-nomi associati ai loro campi; piuttosto, hanno solo i tipi dei
-campi. Le struct di tuple sono utili quando vuoi dare un nome all'intera tupla
-e rendere la tupla un tipo diverso da altre tuple, e quando nominare ogni campo come in una normale struct sarebbe verbose o ridondante.
+Rust supporta anche struct che sembrano simili ai tuple, chiamati *struct a tupla*.
+Le struct a tupla hanno il significato aggiunto fornito dal nome della struct ma non hanno
+nomi associati ai loro campi; piuttosto, hanno solo i tipi dei campi. Le struct a tupla
+sono utili quando si desidera dare all'intero tuple un nome e rendere il tuple un tipo diverso
+rispetto ad altri tuple, e quando assegnare un nome a ciascun campo come in una struct regolare
+sarebbe verboso o ridondante.
 
-Per definire una struct di tupla, inizia con la parola chiave `struct` e il nome della struct
-seguito dai tipi nella tupla. Ad esempio, qui definiamo e usiamo due
-struct di tuple chiamate `Color` e `Point`:
+Per definire una struct a tupla, inizia con la parola chiave `struct` e il nome della struct
+seguiti dai tipi nel tuple. Ad esempio, qui definiamo e utilizziamo due struct a tupla chiamate
+`Color` e `Point`:
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -173,24 +167,22 @@ struct di tuple chiamate `Color` e `Point`:
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-01-tuple-structs/src/main.rs}}
 ```
 
-Nota che i valori `black` e `origin` sono tipi diversi perché sono
-istanze di diverse struct di tuple. Ogni struct che definisci è un tipo a sé stante,
-anche se i campi all'interno della struct potrebbero avere gli stessi tipi. Per
-esempio, una funzione che prende un parametro di tipo `Color` non può prendere un
-`Point` come argomento, anche se entrambi i tipi sono composti da tre valori `i32`.
-In caso contrario, le istanze di struct di tuple sono simili alle tuple in quanto puoi
-destrutturarle nelle loro parti individuali, e puoi usare un `.` seguito
-dall'indice per accedere a un valore individuale.
+Nota che i valori `black` e `origin` sono tipi diversi perché sono istanze di struct a tupla
+diverse. Ogni struct che definisci è il proprio tipo, anche se i campi all'interno della struct
+potrebbero avere gli stessi tipi. Ad esempio, una funzione che prende un parametro di tipo `Color`
+non può prendere un `Point` come argomento, anche se entrambi i tipi sono costituiti da tre valori `i32`.
+Altrimenti, le istanze di struct a tupla sono simili ai tuple in quanto è possibile destrutturarle
+nei loro singoli componenti, e si può utilizzare un `.` seguito dall'indice per accedere a un valore
+individuale.
 
-### Struct Unit-Like Senza Alcun Campo
+### Struct a Unità senza Campi
 
-Puoi anche definire struct che non hanno alcun campo! Queste sono chiamate
-*struct unit-like* perché si comportano in modo simile a `()`, il tipo unit che
-abbiamo menzionato nella sezione ["Il Tipo Tupla"][tuples]<!-- ignore -->. Le struct unit-like
-possono essere utili quando devi implementare un trait su un certo tipo ma non
-hai dati che vuoi memorizzare nel tipo stesso. Discutiamo dei trait
-nel Capitolo 10. Ecco un esempio di dichiarazione e istanziazione di una struct unit
-chiamata `AlwaysEqual`:
+È possibile definire struct che non hanno campi! Questi sono chiamati *struct a unità* perché si
+comportano in modo simile a `()`, il tipo unità che abbiamo menzionato nella sezione
+[“Il Tipo Tuple”][tuples]<!-- ignore -->. Le struct a unità possono essere utili quando è necessario 
+implementare un trait su qualche tipo ma non si hanno dati che si desidera memorizzare nel tipo stesso.
+Discuteremo dei trait nel Capitolo 10. Ecco un esempio di dichiarazione e istanziazione di una struct
+a unità chiamata `AlwaysEqual`:
 
 <span class="filename">Nome del file: src/main.rs</span>
 
@@ -198,27 +190,27 @@ chiamata `AlwaysEqual`:
 {{#rustdoc_include ../listings/ch05-using-structs-to-structure-related-data/no-listing-04-unit-like-structs/src/main.rs}}
 ```
 
-Per definire `AlwaysEqual`, utilizziamo la parola chiave `struct`, il nome che vogliamo, e
-poi un punto e virgola. Non c'è bisogno di parentesi graffe o parentesi tonde! Poi possiamo ottenere un
-istanza di `AlwaysEqual` nella variabile `subject` in modo simile: utilizzando il
-nome che abbiamo definito, senza parentesi graffe o parentesi tonde. Immagina che in seguito
-implementeremo un comportamento per questo tipo in modo che ogni istanza di
-`AlwaysEqual` sia sempre uguale a ogni istanza di qualsiasi altro tipo, forse per
-avere un risultato noto per i test. Non avremmo bisogno di alcun dato per
-implementare quel comportamento! Vedrai nel Capitolo 10 come definire i trait e
-implementarli su qualsiasi tipo, inclusi i struct unit-like.
+Per definire `AlwaysEqual`, utilizziamo la parola chiave `struct`, il nome che desideriamo,
+e poi un punto e virgola. Nessun bisogno di parentesi graffe o parentesi! Poi possiamo ottenere
+un'istanza di `AlwaysEqual` nella variabile `subject` in un modo simile: utilizzando il nome
+che abbiamo definito, senza alcuna parentesi graffe o parentesi. Immagina che più tardi implementeremo
+un comportamento per questo tipo tale che ogni istanza di `AlwaysEqual` sia sempre uguale a ogni
+istanza di qualsiasi altro tipo, magari per avere un risultato noto per scopi di test. Non avremmo 
+bisogno di alcun dato per implementare quel comportamento! Vedrai nel Capitolo 10 come definire trait
+e implementarli su qualsiasi tipo, incluse le struct a unità.
 
-> ### Ownership dei Dati della Struct
+> ### Proprietà dei Dati nelle Struct
 >
-> Nella definizione della struct `User` nella Lista 5-1, abbiamo utilizzato il tipo `String`
-> posseduto piuttosto che il tipo `&str` slice di stringa. Questa è una scelta
-> volontaria perché vogliamo che ciascuna istanza di questa struct possieda tutti i suoi dati e che
-> tali dati siano validi per tutto il tempo in cui l'intera struct è valida.
+> Nella definizione di `User` nell'Elenco 5-1, abbiamo usato il tipo `String` di proprietà
+> piuttosto che il tipo di slice di stringa `&str`. Questa è una scelta deliberata perché
+> vogliamo che ciascuna istanza di questa struct sia proprietaria di tutti i suoi dati e che
+> quei dati siano validi per tutto il tempo in cui la struct è valida.
 >
-> È anche possibile per le struct memorizzare riferimenti ai dati posseduti da qualcos'altro,
-> ma per farlo è necessario l'uso di *lifetimes*, una caratteristica di Rust che discuteremo nel Capitolo 10. Gli lifetimes garantiscono che i dati a cui una struct fa riferimento
-> siano validi per tutto il tempo in cui la struct è. Supponiamo che tu tenti di memorizzare un riferimento
-> in una struct senza specificare gli lifetimes, come nel seguente; questo non funzionerà:
+> È anche possibile che le struct memorizzino riferimenti a dati posseduti da qualcos'altro,
+> ma per farlo è necessario utilizzare le *lifetime*, una funzione di Rust che discuteremo
+> nel Capitolo 10. Le lifetime assicurano che i dati riferiti da una struct siano validi per
+> tutto il tempo in cui la struct è valida. Supponiamo che tu provi a memorizzare un riferimento
+> in una struct senza specificare le lifetime, come segue; questo non funzionerà:
 >
 > <span class="filename">Nome del file: src/main.rs</span>
 >
@@ -242,7 +234,7 @@ implementarli su qualsiasi tipo, inclusi i struct unit-like.
 > }
 > ```
 >
-> Il compilatore si lamenterà del fatto che ha bisogno di specificatori lifetime:
+> Il compilatore si lamenterà perché ha bisogno di specificatori di lifetime:
 >
 > ```console
 > $ cargo run
@@ -275,21 +267,22 @@ implementarli su qualsiasi tipo, inclusi i struct unit-like.
 >   |
 >
 > For more information about this error, try `rustc --explain E0106`.
-> error: could not compile `structs` due to 2 previous errors
+> error: could not compile `structs` (bin "structs") due to 2 previous errors
 > ```
 >
-> Nel Capitolo 10, discuteremo come risolvere questi errori in modo da poter memorizzare
-> riferimenti nelle struct, ma per ora, risolveremo errori come questi utilizzando tipi posseduti
+> Nel Capitolo 10, discuteremo come risolvere questi errori in modo che tu possa memorizzare
+> riferimenti nelle struct, ma per ora, risolveremo errori come questi usando tipi di proprietà
 > come `String` invece di riferimenti come `&str`.
 
-<!-- manual-regeneration
-for the error above
-after running update-rustc.sh:
+<!-- 
+rigenerazione manuale
+per l'errore sopra
+dopo aver eseguito update-rustc.sh:
 pbcopy < listings/ch05-using-structs-to-structure-related-data/no-listing-02-reference-in-struct/output.txt
-paste above
-add `> ` before every line -->
+copia incolla sopra
+aggiungi `> ` prima di ogni linea 
+-->
 
 [tuples]: ch03-02-data-types.html#the-tuple-type
 [move]: ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move
 [copy]: ch04-01-what-is-ownership.html#stack-only-data-copy
-
