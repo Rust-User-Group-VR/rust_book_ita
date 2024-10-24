@@ -41,7 +41,10 @@
           stable.cargo
           stable.rustc
         ]) ]
-      ) ++ [ gptmdt.packages."x86_64-linux".default ];
+      ) ++ [
+        gptmdt.packages."x86_64-linux".default
+        (import ./nix/translator_helper.nix { inherit pkgs; })
+      ];
     };
   };
 }
