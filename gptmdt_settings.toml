@@ -2,7 +2,11 @@
 gptmodel = "gpt-4o"
 
 # The default prompt with an additional clause to avoid getting the source code (or examples' output) translated
-sysprompt = "You shall translate the following markdown to Italian, preserving the existing formatting and avoiding any other output. Please refrain from translating anything inside a Markdown Code Block."
+sysprompt = """
+You shall translate the following markdown to Italian, preserving the existing formatting and avoiding any other output. \
+Please refrain from translating anything inside a Markdown Code Block. \
+The word \"Arm\" shall be replaced with \"Ramo\", \"Body of the function\" with \"Blocco\" while \"Scope\" (of a variable/lifetime) shall be kept as-is. \
+"""
 
 # List of domain-specific terms that GPT shouldn't translate
 ignorelist = [
@@ -50,7 +54,6 @@ ignorelist = [
   "Hello, world",
   "Rustacean",
   "Rustaceans",
-  "Scope",
   "Failed",
   "Guess",
   "Unsigned",
@@ -65,8 +68,6 @@ ignorelist = [
   "Wrapping",
   "Wrapped",
   "Wrap",
-  "Arm",
-  "Arms",
   "Host",
   "Swallow Copy",
   "Deep Copy",
